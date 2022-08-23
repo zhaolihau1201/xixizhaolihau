@@ -1,0 +1,2627 @@
+Linux
+1、创建和删除操作
+touch  创建一个空白文件。（ta chi）
+mkdir  创建一个新的目录（文件夹）（mai kei de er）
+mkdir -p  可以递归创建目录。
+rm  删除文件。
+rmdir  删除空目录。（r m de er）
+rm -rf  删除文件或目录。
+-r  表示递归地删除目录下的内容；
+-f  表示强制删除，忽略不存在的文件，无需提示。
+2、拷贝文件
+复制文件：cp 文件名 目录名（会覆盖原来的内容 ）
+复制文件夹：cp -r 文件夹名 目录名 （递归复制文件夹）
+-r 表示递归复制该目录下的所有子目录和文件。
+3、可以实现移动或重命名
+移动：mv  文件名 目录
+如：mv a.txt b （相对路径）
+ mv /home/zhang/a.txt /home/zhang/b （绝对路径）
+重命名：mv  文件名  新文件名
+如：mv a.txt aa.txt  （相对路径）
+ mv /home/zhang/a.txt /home/zhang/aa.txt （绝对路径）
+移动+重命名：mv  文件名  目录/新文件名
+如：mv a.txt b/aaa.txt    （相对路径）
+ mv /home/zhang/a.txt /home/zhang/b/aaa.txt（绝对路径）
+4、查看文件内容
+1、查看轻量级文件（kai te）
+cat  文件名   表示查看文件内容。
+重定向 > 和 >>
+> 表示输出，会覆盖文件原有内容。
+cat 文件1>文件2 表示将文件1的内容复制到文件2，会将文件2内容覆盖。
+cat 文件1 文件2 > 文件3 表示将文件1、文件2的内容复制到文件3中，会将文件3内容覆盖。
+>> 表示追加，会将内容追加到已有文件的末尾。
+cat 文件1>>文件2 表示在文件2后追加文件1的内容。
+cat 文件1  文件2>>文件3 表示在文件3后追加文件1与文件2的内容。
+注意：>和>>前可以有多个文件，后面只能有一个文件。
+2、 查看大文件 （mou er）
+more 文件名   查看大型文件内容。
+3、查看大文件（lai si）
+less 文件名   查看大型文件内容（比more命令多）。
+less -f 服务名.catalina.日期.out
+4、查看文件前10行（hai de）
+head 文件名    默认查看文件前10行
+head -n 文件名   打开文件前n行（n为数字）。
+如：head -13 a.txt
+表示查看 a.txt 前 13 行内容。
+5、查看文件后10行（tai o）
+tail  文件名    默认打开文件后10行
+tail -n 文件名     打开文件后n行（n为数字）
+如：tail -13 a.txt
+表示查看 a.txt 最后 13 行内容。
+5、实时监控：
+tail -f a.txt
+如：实时监控文件变化：
+ctrl+c 退出追踪日志。
+6、查看log日志常出现的异常情况：
+NullPointerException - 空指针引用异常。
+ClassCastException - 类型强制转换异常。
+IllegalArgumentException - 传递非法参数异常。
+ArithmeticException - 算术运算异常。
+ArrayStoreException - 向数组中存放与声明类型不兼容对   象异常。
+IndexOutOfBoundsException - 下标越界异常
+NegativeArraySizeException - 创建一个大小为负数的数组错误异常。
+NumberFormatException - 数字格式异常。
+SecurityException - 安全异常。
+UnsupportedOperationException - 不支持的操作异常
+7、查找文件（fan de）
+find -name 文件名  在当前目录查找文件。
+如： find -name '*.txt'
+表示查找 当前目录 下后缀为txt的文件。
+find 路径 -name 文件名
+在指定的的路径下查找文件
+如： find / -name '*.txt'
+表示查找 根目录 下后缀为 txt 的文件。
+locate 文件名 从数据库中查找（lao ke de）
+find 与locate的区别：
+1、find从磁盘空间查找，locate从数据库中查找；
+2、虽然locate效率比find更高；但是在使用locate之前，要先在root用户下updatedb将数据库与磁盘同步，若不进行更新可能出现已经删除的文件找得到，新创建的文件找不到。
+8、 搜索文件内容（ge ruai pu）
+grep ‘str’ 文件名
+从文件中查找带有str的行。
+如：grep ‘error’ a.log
+表示搜索a.log日志中是否包含字符串‘error’。
+9、ls -l 搜索文件
+ls -l |grep  ‘c’
+表示在当前目录下查找含‘c’ 的内容。
+10、结合 wc -l  来使用，统计次数。
+grep -o '字符串' 文件名|wc –l
+统计指定文件内字符串出现的次数。
+grep -o '字符串\|字符串' 文件名|wc –l
+统计指定文件内多个字符串出现的总次数
+11、显示文件内容sed -n （sai de）
+sed -n ‘n,mp’ 文件名
+显示文件中从n行到m行的内容。
+如： sed –n ‘2,5p’ c.txt
+表示显示c.txt文件中第2到第5行内容。
+12、显示某段时间内的文件内容sed -n
+sed -n ‘/开始时间/，/结束时间/p’ 文件名
+Less -f 服务名 catalina.日期.out
+查看某段时间内日志文件。
+如：sed –n ‘/2020-1-3 0:00:00/，/2020-1-3 23:59:59/p’ c.txt
+时间格式不固定，年月日还是月日年要根据系统格式。
+13、sed -i 修改文件内容（sai de）
+sed -i 's/old/new/g' 文件名
+使用字符串new代替文件中所有的old字符串。
+如：sed -i 's/a/c/g' c.txt
+表示使用c替换c.txt文件中的a
+sed –i  'ns/old/new/g' 文件名
+使用字符串new代替文件中第n行的old字符串。
+如： sed -i '3s/a/c/g' c.txt
+表示使用c替换c.txt文件中第三行的a
+sed -i 'n,ms/old/new/g' 文件名
+使用字符串new代替文件中第n到m行的old字符串。
+如：sed -i '2,5s/a/c/g' c.txt
+表示使用c替换c.txt文件中第2行到第五行的a
+14、ln -s 软链接
+在使用 ln 创建链接时，如果没有 -s 选项，会创建一个 硬链接，而不是软链接。
+ln -s 源文件 链接文件
+如ln -s /home/zhang/a/aa  /home/zhang/b/bb
+表示将/home/zhang/a/aa目录创建软连接到/home/zhang/b目录下并重命名为bb。
+建议源文件要使用绝对路径，这样可以方便移动链接文件后，仍然能够正常使用。
+软连接特点：
+1、如果原文件更新，软连接也会随着更新；如果软连接更新，原文件也会随着更新。
+2、软链接指向文件消失不见，软链接失败；软链接不存在了，源文件没有任何影响。
+3、如果原文件删除了，不存在了，软连接失效；
+15、打包/解包  tar
+-c   生成档案文件，创建打包文件
+-x   解开档案文件
+-t   列出档案中包含的文件
+-v   列出归档解挡的过程，显示进程
+-f   指定档案文件名称，放在最后面
+1、打包文件 tar -cvf （ta er）
+tar -cvf 打包文件.tar 被打包的文件   表示将该文件打包
+如：tar -cvf a.tar a.txt
+表示将a.txt文件打包。
+2、查看文件 tar -tvf
+tar -tvf 打包文件.tar    不解包查看打包文件中的内容
+如：tar -tvf a.tar
+表示不解包的情况下查看a.tar内容。
+3、解包文件 tar -xvf
+tar -xvf 打包文件.tar   表示将打包文件解包
+如：tar -xvf a.tar
+表示将a.tar解包。
+16、压缩/解压缩
+1、压缩文件tar -zcvf （ta er）
+tar -zcvf  压缩文件.tar.gz 被压缩的文件
+如：tar -zcvf a.tar.gz a.txe
+表示将a.txt文件压缩。
+2、查看 tar -tvf
+tar –tvf  压缩文件.tar.gz   不解压查看压缩包中的内容
+如：tar -tvf a.tar.gz
+表示不解压的情况下查看a.tar.gz内容。
+3、解压缩文件  tar -zxvf
+tar –zxvf  压缩文件.tar.gz
+如：tar -zxvf a.tar.gz
+表示将a.tar.gz解压到当前目录。
+tar -zxvf 压缩文件.tar.gz -C 目标路径  解压缩到指定路径。
+如：tar -zxvf a.tar.gz -C /homg/zhang/a
+表示将a.tar.gz解压到/homg/zhang/a目录。
+-C  解压缩到指定的目录；要解压缩的目录必须存在。
+4、压缩文件（z pu）
+zip [-r]  压缩文件.zip  被压缩的文件
+如：zip  a  a.txt        表示将a.txt文件压缩。
+如：zip -r aa  a
+表示将a目录内所有子目录一起压缩。
+-r  压缩所有子目录。
+5、查看压缩文件（ang z pu）
+unzip -v 压缩包名.zip   不解压查看压缩包中的资源。
+如：unzip -v aa.zip
+表示不解压的情况下查看aa.zip压缩包中的内容。
+6、解压缩文件
+unzip -d 打包文件.zip
+如：unzip -d  aa.zip
+表示将aa.zip解压到当前目录中。
+如：unzip -d /homg/zhang/b aa.zip
+表示将aa.zip解压到/homg/zhang/b目录中
+-d  解压缩到指定的目录；要解压缩的目录必须存在。
+17、查看进程占用cpu、内存的使用情况。
+ps -aux
+-a  显示终端上的所有进程，包括其他用户的进程。
+-u  以用户的格式显示进程详细状态。
+-x  显示后台进程运行的参数。
+18、按cpu使用情况从高到低排序：
+ps –aux –-sort=-%cpu
+19、按内存使用情况从高到低排序：（so wo te）
+ps –aux –-sort=-%mem
+20、查看的进程命令
+ps -ef
+21、查看详细的进程命令
+Ps -ef |grep “进程关键字”
+22、杀死进程：（kei o）
+kill pid  通过唯一标识号pid杀死进程；
+kill -9 pid  通过唯一标识号pid强制杀死进程。
+23、ps -ef 与 ps -aux的区别：
+ps –ef：查看详细的进程命令；
+ps –aux：查看进程占用cpu、内存的使用情况。
+24、问：我想要查看Java进程怎么查？
+答：您查这个进程是想要做什么？
+如果想要查询看是哪些Java进程占用的电脑资源比较多是用ps –aux|grep 以及对应的java关键字就可以查出来
+（如：ps –aux|grep java）；
+如果是想要查哪个进程有问题把它杀掉，可以用ps –ef|grep 以及对应的Java关键字（如：ps –ef|grep java）；
+然后用kill或者kill -9 和对应的pid号，就可以杀掉目标进程。
+25、top 相关命令结合使用。 （ta pu）
+top -d  n    指定刷新时间。
+如: top -d 1  表示一秒刷新一次。
+top -p pid  查看某个进程。
+如: top -p 1  表示查看编号的1的进程。
+top -p 1，2，3   表示同时查看编号为1， 2 ，3的进程。
+top -d 1 -p pid  表示一秒刷新一次某个进程的状况。
+top -b –n  1  显示最近一次top刷新点的所有进程状况。
+如: top -b -n 1  表示展示最近一次刷新。
+top -b -n 2 表示敲命令一瞬间最近两次top执行状况。
+26、查看磁盘及目录
+df -h     查看系统整体磁盘使用情况。
+du -h     查看当前目录下所有的文件夹的使用情况。
+du -sh          查看当前目录的使用情况。
+du -sh 目录/文件    查看某个目录/文件的使用情况。
+du -sh *            对当前目录下所有文件按照文件名排序显示。
+du -sh * |sort -n    对当前目录下所有文件从小到大排序显示。    （su ruei te）
+du –ach 文件名     统计指定文件大小。
+27、查看系统服务
+service 服务名 stop        停止服务  （se wai si）（si ta pu）
+service 服务名 start       启动服务   （si ta te）
+service 服务名 restart     重启服务    （ruei si ta te）
+service 服务名 status      查看服务状态（si ta te si）
+service 服务名 reload      重新加载    （ruei lao de）
+28、通过chkconfig 命令设置自动启动
+chkconfig --list     查看所有服务。
+（chai ke kang fei ge）（lai si te）
+chkconfig --list|grep 服务名    查看目标服务。
+chkconfig --level 1 服务名 on   设置自动开启1的服务。
+          （lei wa）
+29、进程与服务的区别？
+进程：前台的应用（幕前）；
+服务：后台的程序支持（幕后）。
+30、查看网络配置
+Ifconfig 查看网络IP地址以及其详细情况。（i fu kang fei ge）
+31、查看历史命令
+history （hei si te ruei）
+32、查看系统监听的端口
+netstat 命令查看软件打开的端口信息（nai te si ta te）
+相关参数说明：
+-a   显示所有已打开的端口号
+-n   不用别名显示，只用数字显示
+-p   显示进程号（pid）和进程名
+-t   显示所有tcp协议端口
+-u   显示所有udp协议端口
+-l   表示监听（小写字母L）
+-i   忽略大小写
+1、查看所有的进程和端口使用情况？
+netstat -anptu
+2、查看22端口的使用情况？
+netstat -anp|grep 22
+3、查看当前服务器所监听的端口有哪些？
+netstat -antl|grep 'LISTEN'
+netstat -ant|grep -i 'listen'
+LISTEN 表示监听。
+4、查看占用8080端口的进程
+netstat -anp|grep 8080
+5、lsof 命令 使用端口的进程信息
+lsof -i  端口号   显示进程打开的所有文件。
+如：lsof –i:22
+列出使用端口22的进程信息。也可以理解为查看22这个端口被哪个应用程序占用了(root查看)。
+linux系统中安装软件时，有时会出现因为端口被占用而无法安装的情况，这个时候就需要我们用lsof -i命令查看安装软件要使用的端口是否被占用。
+注意：一般需要root用户权限才能看到更详细的端口信息。
+
+
+
+
+
+
+
+
+
+32、文件的权限管理
+1、权限基本概念
+作用到文件:
+r 代表可读(read): 可以读取,查看。
+w 代表可写(write): 可以修改,但是不代表可以删除该文件,删除一个文件的前提条件是对该文件所在的目录有写权限，才能删除该文件。
+x 代表可执行(execute):可以被系统执行。
+
+作用到目录:
+r 代表可读(read): 可以读取，ls查看目录内容。
+w 代表可写(write): 可以修改,目录内创建+删除+重命名目录。
+x 代表可执行(execute):可以进入该目录。
+2、chmod 命令   修改文件权限字母法 （qiong mu de）
+chmod  用户类型 = 权限  文件名
+用户类型：
+u  =  文件所有者
+g  =  文件所有者用户组
+x  =  表示除他以外的人
+a  =  这三者皆是
+权限类型
++  =  增加
+-  =  撤销
+=  =  设定权限
+如：chmod u=rwx,g=rx,o=x  a.txt
+chmod g+w,o-x  文件名
+表示组增加了w权限，其他撤销了x权限；
+中间使用逗号分割。
+3、chmod 命令  设置权限  数字法
+chmod  777 文件名
+权限对照：
+可 读： r=4
+可 写： w=2
+可执行：x=1
+rwx=4+2+1=7
+如：chmod 761 文件名
+表示给所属者赋rwx，所属组赋rw，其他人赋x的权限。
+
+
+
+
+
+4、chown 命令 改变文件的所有者和所有组（qiong o na）
+chown newowner 文件名         改变文件的所有者。
+如：chown zhangsan test.txt
+表示把test.txt文件的用户名改为zhangsan。
+chown newowner:newgroup 文件名     改变文件的所有者和所有组。
+如：chown lisi:test aa.txt
+表示把aa.txt文件的用户改为lisi，组改为test。
+chown -R newowner:newgroup 目录名  改变目录的所有者和所有组。
+-R 使其下所有子文件或目录递归生效。
+如：chown -R zhang:test c
+表示把c目录（以及c目录下的所有资料）的用户改为zhang,组改为test。
+5、chgrp 命令     改变文件的所有组
+chgrp newgroup 文件名     改变文件的所有组。
+如：chgrp test1 test.txt
+表示把文件test.txt的组名改为test1。
+chgrp -R newgroup 目录名 只更改目录所有组
+如：chgrp -R test1 c
+表示把目录c的组名改为test1。
+
+
+
+
+
+33、查看用户
+whoami            查看当前用户。（hu a mi）
+who am i          查看登录时用户。（）
+cat /etc/passwd   查看当前系统所有的用户。（pa si wo de）
+id  用户名        查看用户。
+34、创建用户（you re a d d）
+useradd 用户名    创建一个新用户。
+ 如 ：useradd zhangsan
+ 表示创建一个zhangsan的用户。
+ passwd 用户名  给指定用户设置新密码。
+ 如：passwd zhangsan
+ 输入命令后按回车，再输入密码并确认密码。
+ 表示给zhangsan用户设置密码。
+35、切换账号
+su  用户名     切换到指定的用户。
+su 不接用户名，    可以直接切换到 root 管理员。
+注意：Linux密码为不可见，若输入密码错误建议使用ctrl+c终止重新切换并输入密码。
+36、删除用户（you re dai o）
+ 第一步、userdel 用户名         删除该用户的家用户名；
+ 第二步、rm -rf /home/用户名       删除该用户的家目录；
+ 第三步、rm /var/spool/mail 用户名    删除该用户的文件；
+        （wo er）（si pu o） （mei you）
+ 第四步、提示出来后输入y并按下确认。
+  注意：一定要按照步骤全部删除完后才算是把用户删除了。
+37、查看用户组
+cat /etc/group           查看组。
+查看当前系统所有的用户组
+38、创建用户组
+groupadd 组名     （ge ru pu a d d）          新增组。
+如： groupadd test
+表示创建一个test组。
+useradd –g 用户组 用户名        增加用户时直接加上组。
+如： useradd –g test lisi
+表示创建用户lisi时直接加上test组。
+注意：test组必须存在。
+39、修改用户组
+usermod –g 用户组 用户  （you re ma de）          修改用户的组。
+如： usermod –g  zhang test
+表示修改把zhang的组名改为test。
+40、删除用户组
+groupdel 组名          删除组。  ge ru pu dai lo
+如： groupdel test
+表示删除test组。
+41、编辑文件
+Vim 文件：如果这个文件存在，打开文件并进入编辑状态
+如果这个文件不存在，创建这个文件并打开进入编辑状态
+打开方式：vim  xx文件名
+一般模式命令：
+dd：删除光标当前行
+dnd：删除光标以及光标下n行
+u：撤销上一步
+x：删除光标前一个字母
+X：删除光标后一个字母
+yy：复制光标当前行
+p：粘贴
+dw：删除光标后一个词
+pw：复制光标后一个词
+shift+g:移动至页尾
+1+shift+g：移动至页头
+n+shift+g：移动至n行
+shift+6：移动至行头
+shift+4：移动至行尾
+编辑模式命令：
+i：光标前插入文字
+a：光标后插入文字
+o：光标下一行插入文字
+s：删除当前字符进入编辑
+S：删除当前行进入编辑
+R:进入替换模式
+命令模式命令：
+：set nu    显示行号
+：set nonu    关闭行号
+/查找内容    查找想要内容（n向下查找，N向上查找）
+：%s/旧字符/新字符/g    替换旧字符
+wq：保存退出
+wq！：保存并强制退出
+q！：强制退出
+MYSQL
+1、什么时候会用到数据库？
+当面试时被问到什么时候使用到数据库时？
+可以考虑这么回答：
+1 执行测试用例时
+有时需要到数据库验证数据的落库的信息；
+如：注册用户，看看数据库有没有数据落库，
+2 在对bug进行精准定位时
+有时需要到数据库查看数据的详细信息；
+3 构造某种测试场景时
+可以在数据库里直接修改数据，要比使用界面更有效率；
+4 软件升级过程中
+经常会涉及到对历史数据的处理，这种情况需要执行升级sql，并验证结果。
+2、数据库的核心元素
+数据行：一条记录。
+数据列：字段。
+数据表：数据行的集合，一个表中可以有多个列。
+数据库：数据表的集合，一个数据库中可以有多个表。
+
+
+
+
+3、通过DOS窗口输入命令实现启动/停止MySQL服务。
+net start 服务名   启动 MySQL服务。
+如：net start mysql57
+表示启动mysql57 服务
+net stop 服务名  停止 MySQL服务。
+如：net stop mysql57
+表示停止mysql57 服务。
+
+
+
+4、数据库的常用命令有哪些？
+Select（si lai ke te） 后面跟查询的内容；
+From （fu ruang mu）数据来源于哪个表；
+Where （wai e）筛选条件；
+Group by （ge ru pu bai）如果需要分组我会用到Group by
+Having  （hai wei ying）分组后筛选用Having
+Order by  （ao te bai）如果要排序用Order by
+默认是升序asc，可以省略，降序是用desc；
+Limit（lei mi te） 如果数据比较多需要分页展示我会使用 limit
+
+
+
+1、select查询基本语法
+select  查询内容
+from  表名
+如：select  *  from  students；
+表示查询所有学生的所有信息。
+查询的内容可以是：常量、表达式、函数、字段；
+1、加注释：
+# 单行
+/*   */  多行
+加了注释的语句不会被执行。
+2、常量
+通常将固定数值称之为常量。
+3、表达式
++ 加  如：select 1+1;
+-  减
+*  乘
+/  除
+% 取余
+4、函数
+concat 拼接。可以拼接多个字符串，
+SELECT VERSION(); 查询当前数据库版本号（括号内为空）；
+SELECT SYSDATE(); 查询数据库服务器系统时间（括号内为空）；
+SELECT DATABASE(); 查看当前在哪个数据库（括号内为空）；
+DISTINCT  去重。
+5、字段
+数据库里表中的字段（列名）。
+2、筛选条件查询 where
+使用 where 子句对表中的数据筛选，符合条件的数据会出现在结果集中。
+select 查询内容
+from 表名
+where 筛选条件；
+where 后面支持多种运算符，进行条件的处理。
+比较运算
+逻辑运算
+模糊查询
+范围查询
+空判断
+1、比较运算符
+>  大于
+<  小于
+>=  大于等于
+<=  小于等于
+!= 或者 <>  不等于
+=  等于
+<=> 安全等于
+2、逻辑运算符
+and 并的关系，同时成立进行筛选（关键字：并且）。
+or 或的关系，有一个成立进行筛选（关键字：或者）。
+not 取反的关系，等同于 !=或者<> （关键字：不）。
+3、模糊查询
+like  像...一样；一般与通配符结合使用。
+通配符：
+%  表示任意多个任意字符。
+_   表示一个任意字符。
+注意：like后面是搜索通配字符，要用引号引起来。
+转义符：
+\  将其后的符号转成普通字符。
+4、范围查询
+in 表示在一个非连续的范围内。
+注意：
+使用in的条件筛选可以与or进行互换（替换）；
+in后面紧跟的集合必须用小括号括起来；
+小括号中的数据类型必须与列的数据类型保持一致；
+小括号里面不能包含通配符。
+between ... and ...  表示在一个连续的范围内。
+注意：
+between后的值是小值；
+and后的值是大值；
+前后都包含边界值。
+5、空判断
+is null  判空 。
+is not null 判非空。
+ifnull（值1,值2） 判断值1是否为null。
+如果值1为空，则取值2的值；
+如果值1不为空，则取值1的值。
+注意：
+null  与‘null’  是不同的。
+null 表示值为空；
+‘null’ 表示字符串‘null’ 。
+3、分组  group by
+按照字段分组，此字段相同的数据会被放到一个组中。
+分组的目的是对每一组的数据进行统计(使用聚合函数)。
+一般需求当初若出现“哪个”、“每个”、 “各个”并且还有聚合函数的时候会用到分组查询。
+select 字段1,字段2,聚合...
+from 表名
+group by 字段1,字段2,...
+4、分组后的数据筛选  having
+select 字段1,字段2,聚合...
+from 表名
+group by 字段1,字段2,字段3...
+having 字段1,...聚合...
+having后面的条件运算符与where的相同。
+where 是对 from 后面指定的表进行数据筛选，属于对原始数据的筛选。
+having 是对 group by 的结果进行筛选。
+having 后面的条件中可以用聚合函数，where 后面不可以。
+能使用分组前筛选，建议使用分组前筛选，效率较高。
+5、排序 order by
+为了方便查看数据，可以对数据进行排序。
+select *
+from 表名
+order by 字段1 asc|desc,字段2 asc|desc,...
+asc  从小到大排列，即升序 (默认，也可省略不写)。
+desc 从大到小排序，即降序。
+操作说明：
+order by 后可以跟字段|函数|别名（别名不必加引号）,
+查询所有员工的员工信息并且按照工资进行升序排序
+SELECT *
+FROM employees
+ORDER BY salary ASC;  （ASC可省略不写）
+6、分页 limit
+当数据量过大时，在一页中查看数据是一件非常麻烦的事情，可以实现分页询。
+select *
+from 表名
+limit [offset],size;
+操作说明：
+LIMIT后跟1个值：
+limit size  表示取查询的结果的前size条（size为数字）。
+如：limit 3 表示查询前3条数据。
+LIMIT后跟2个值：
+limit offset,size 表示从第offset个索引开始，查询size条。
+offset  代表索引起始的位置（索引从0开始），
+         索引页时，（页数-1）*每页条数。
+size  查询的条目数，即每页显示的条数。
+如：limit 4，6  表示查询第5到第10条数据。
+如：limit 30，10 每页10条，显示第4页数据。
+    索引起始位置为（4-1）*10，查询条数为10。
+5、四大函数类型
+函数中的（）中的内容称为参数，类似于数学中的未知数。
+字符型函数：操作字符串的函数；
+数值型函数：操作数值的函数；
+日期型函数：实现字符串与日期之间的相互转换；
+聚合函数：进行数据统计。
+函数的作用：
+数据库服务内置的已经存在的一些算法，可以直接拿来用，避免了很多不必要的操作，使代码更加简洁。
+1、字符型函数
+upper(str)     转换成大写。 （ao po）
+将员工表中的员工名全部大写显示
+SELECT UPPER(first_name)
+FROM employees;
+lower(str)     转换成小写。  （lo wo）
+将员工表中email全部小写显示
+SELECT LOWER(email) 邮箱地址
+FROM employees;
+substr(str,pos)     截取字符串  （sa bu si zhua）
+将字符串“我要好好学习mysql”截取，截取后显示mysql
+SELECT SUBSTR('我要好好学习mysql',7);
+substr(str,pos,len)
+pos   表示截取的起始位置；
+len    表示截取的长度。
+将字符串“我要好好学习mysql”截取后显示好好学习
+SELECT SUBSTR('我要好好学习mysql',3,4);
+length()       返回()内数据的字节长度。 （len ge si）
+1个汉字在utf-8字符集里面占3个字节，
+在gbk字符集里面占2个字节；
+返回字符串“我要好好学习mysql”长度
+SELECT LENGHT('我要好好学习mysql');
+instr(str1,str2)     返回str2在str1中首次出现的位置。
+如果str2不存在str1中，则返回0；（yin si tuen er）
+当str2在str1中多次出现，显示的依然是首次出现的位置；
+查找‘好好’在‘我要好好学习MySQL’中的位置
+SELECT INSTR(‘我要好好学习MySQL ’,‘好好');
+trim(str)     去掉前后空格，字符中间的空格去不掉。
+去掉‘  好好学习 ’前后空格（chuai mu）
+SELECT TRIM(‘  好好学习 ’);
+ltrim(str)       去掉左边的空格（lao chuai mu）
+去掉‘  好好学习 ’左边的空格
+SELECT  LTRIM(‘ 好好学习 ’);
+rtrim(str)      去掉右 边的空格（ruei chuai mu）
+去掉‘ 好好学习 ’右边的空格
+SELECT  RTRIM(‘ 好好学习 ’);
+replace(str1,str2,str3)  使用str3替换str1中的str2。
+当str2不存在str1中，则str3替换不成功。（ruei pu lei si）
+将‘好好学习’里面的‘好好’替换成‘天天'
+SELECT REPLACE (‘好好学习’,‘好好’,‘天天');
+rpad(str,len,padstr)  向右填充。 （ruei pa de）
+使用padstr向 右 / 左 填充str字符串到len的长度。
+用*将abc字符串向右填充到长度为6
+SELECT RPAD('abc','6','*');
+lpad(str,len,padstr)  向左填充。 （lao pa de）
+用*将abc字符串向左填充到长度为6
+SELECT LPAD('abc','6','*');
+2、数值型函数
+round()    四舍五入。 （rua de）
+round(X,D) X表示操作数字，D表示小数点后保留的位数。
+round(X)  X表示操作数字，表示默认四舍五入到整数位。
+将13.14521四舍五入后保留2位小数
+SELECT ROUND(13.14521,2);
+truncate()    截断  （chuan kei te）
+truncate(X,D)  X表示操作数字，D表示小数点后保留的位数， 不会进行四舍五入的运算。
+将13.14521截断后保留2位小数
+SELECT TRUNCATE(13.14521,2);
+ceil()   向上取整。 （sei o）
+ceil(x)  表示对X向上取整（略大于X的整数）。
+对12.56向上取整
+SELECT CEIL(12.56);
+floor()   向下取整。（fu lo er）
+flooor(x) 表示对X向下取整（略小于X的整数）。
+对12.56向下取整
+SELECT FLOOR(12.56);
+rand()   随机数 （ruai de）
+返回0-1的随机数
+（）里面不填写参数；
+返回的值包含0，不包含1。
+获取一个0--100之间的随机整数
+SELECT  CEIL(RAND()*100);
+获取100--200之间的随机数整数
+SELECT FLOOR(100+RAND()*101);
+mod()   取余数(取模)（mao de）
+对10%3取余数
+SELECT MOD(10,3);
+3、日期型函数
+查看系统时间：
+sysdate()    查看系统时间。（sai si dai te）
+now()        显示系统年月日时分秒。（na o）
+curdate()    获取系统年月日。（sei wa dai te）
+curtime()    获取系统时分秒。（sei wa chuai mu）str_to_date(str,format)  （si tuen er to dei te）
+将str按照format格式转换为日期格式。
+str表示需要转化的字符串；
+fromat表示转化成的格式。
+SELECT STR_TO_DATE('1988年1月3日','%Y年%m月%d日');
+date_format(date,format)  （dei te fu ma te）
+将日期按照format格式转换为字符串。
+SELECT DATE_FORMAT('2020-12-12 14:13:19',
+'%Y年%m月%d日 %H时%i分%s秒');
+4、聚合函数
+使用聚合函数方便进行数据统计，但不能在 where 中使用。
+sum()        求和
+求所有员工的工资总和
+SELECT SUM(salary)
+FROM employees;
+avg()        求平均数
+求所有员工的平均工资
+SELECT AVG(salary)
+FROM employees;
+max()        求最大值
+求所有员工最高工资
+SELECT MAX(salary)
+FROM employees;
+min()        求最小值
+ 求所有员工最低工资
+SELECT MIN(salary)
+FROM employees;
+count()      统计
+count()：括号内容  * 、字段、常量值；
+*  按行统计总数（不过滤null）。
+常量 按行统计总数。
+字段 统计不为空的字段出现的字数（会过滤null）
+统计员工表中员工的总数（*、常量）
+SELECT COUNT(*) FROM employees;
+
+
+
+
+6、连接查询
+当查询结果的列来源于多张表时，需要将多张表连接成一个大的数据集，再选择合适的列返回。
+1、SQL 92 语法多表连接查询
+1、等值连接
+查询的结果为两个表匹配到的数据。
+select *
+from 表1,表2
+where 表1.列=表2.列
+查询员工的姓名以及员工对应的部门名
+SELECT first_name,last_name,department_name
+FROM employees,departments
+WHERE employees.department_id =  departments.department_id;
+2、非等值连接
+查询的结果为表1里那列数据在表2里对应的等级范围。
+select *
+from 表1,表2
+where 表1.列 bewteen 表2.列 and 表2.列
+查询员工的姓名，工资以及工资等级
+SELECT first_name,last_name,salary,grade_level
+FROM employees e,job_grades jg
+WHERE e.salary
+BETWEEN jg.lowest_sal AND jg.highest_sal;
+2、SQL 99 语法多表连接查询（关键字：join）
+1、内连接：
+关键字：[inner]join
+查询的结果为两个表匹配到的数据。
+select *
+from 表1 [inner] join 表2
+on 表1.列=表2.列
+2、外连接：
+查询的结果为两个表匹配到的数据加主表特有的数据，对从表中不存在的数据使用null 填充。
+1、左外连接：关键字：left  [outer] join
+select *
+from 表1 left [outer] join 表2
+on 表1.列=表2.列
+注意：外连接中表的顺序是固定的，不可以随意调换。
+左外：left join 左边是主表，右边是从表；
+结果集：主表的全部内容+从表中匹配到的内容+从表中未匹配到的内容以null补全。
+2、右外连接：关键字：right [outer] join
+select *
+from 表1 right [outer] join 表2
+on 表1.列=表2.列
+注意：外连接中表的顺序是固定的，不可以随意调换。
+右外：right join 右边是主表，左边是从表。
+结果集：主表的全部内容+从表中匹配到的内容+从表中未匹配到的内容以null补全。
+3、全外连接：关键字：full [outer] join
+select *
+from 表1 left [outer] join 表2
+on 表1.列=表2.列
+union
+select *
+from 表1 right [outer] join 表2
+on 表1.列=表2.列
+3、92语法与99语法的区别？
+92没有外连
+99有外连接（左外、右外、全外）
+4、左外连接与右外连接的区别？
+左外连接时主表在左边（上）从表在右边（下）；
+右外连接时主表在右边（上）从表在左边（下）；
+查询结果是 主表的全部内容，
+从表里匹配到的内容，如果匹配不到的内容则以null补全。
+
+
+
+
+7、子查询
+在一个 select 语句中，嵌入了另外一个 select 语句，那么嵌入的 select 语句称之为子查询语句。
+1、主查询
+外层的 select 语句称之为主查询语。
+2、主查询和子查询的关系：
+子查询是嵌入到主查询中的；
+子查询是辅助主查询的，要么充当条件，要么充当数据源；
+子查询是可以独立使用的语句，是一条完整的 select 语句。
+3、子查询分类：
+标量子查询：子查询结果为一列一行；
+列子查询：子查询结果为一列多行；
+行子查询：子查询结果为一行多列；
+表子查询：子查询结果为多行多列。
+4、子查询书写位置：
+select 后面：
+把子查询的结果当成查询内容使用，只能跟标量子查询；
+from  后面 ：
+把子查询的结果当成数据源使用，必须给子查询起别名；
+如果子查询的字段有函数作用时，必须给该字段起别名。
+where / having 后面 ：
+把子查询的结果当成条件使用。
+5、子查询中特定关键字使用：
+标量子查询连接符：>、<、>=、<=、=、<>、!=
+列子查询连接符：
+in   表示在数据里面。
+any   表示任一、任何一个。
+all   表示所有。
+
+
+
+
+
+
+8、数据的增、删、改相关操作
+增加：insert
+删除：delete
+修改：update
+1、指定列新增
+insert into  表名(列名1,列名2,...)
+      values(值1,值2,...);
+insert into  表名
+      set 列1=值1, 列2=值2,...
+2、指定列批量添加数据
+insert into 表名(列名1,列名2, 列名3,...)
+values (值1,值2,值3,...),
+           (值1,值2,值3,...),
+            .......
+          (值1,值2,值3,...);
+3、全表新增数据
+insert into 表名
+values(值1,值2, 值3，值4，值5，值6);
+或者（假设有6列）
+insert into 表名 （列1, 列2, 列3，列4，列5，列6）
+values(值1,值2, 值3，值4，值5，值6);
+值的顺序与表设计的字段的顺序保持一致；
+全表添加数据时，必须每列都要添加值 。
+4、全表批量添加数据
+insert into 表名
+values(值1,值2, 值3，值4，值5，值6)，
+           (值1,值2, 值3，值4，值5，值6)，
+            ……，
+           (值1,值2, 值3，值4，值5，值6);
+或者（假设有6列）
+insert into 表名 （列1, 列2, 列3，列4，列5，列6）
+values(值1,值2, 值3，值4，值5，值6)，
+           (值1,值2, 值3，值4，值5，值6)，
+           ……，
+           (值1,值2, 值3，值4，值5，值6);
+5、全表备份数据
+insert into 表1
+select *
+from 表2
+将表2的数据copy到表1中；
+表1与表2的表设计必须一致。
+表设计是指列名，数据类型，长度是一致的。
+6、指定列备份数据
+insert into 表1(表1的列1,表1的列2,...)
+select 表2的列1,表2的列2,...
+from 表2 ;
+
+7、删除数据 delete / truncate
+1、单表删除
+1、单表全部删除
+delete from 表名；
+truncate 表名；
+2、筛选条件删除
+delete from 表名
+where 筛选条件；
+3、delete和truncate区别：
+1、delete可以筛选数据删除，truncate只能全表删除；
+2、delete返回受影响行的数量，truncate不返回受影响行的数量；
+3、delete删除数据时，如果表中有自增长字段，那么再次添加时，若没有添加自增长的字段值，则默认从断点位置累加；truncate删除数据，再次添加数据时，可以从设置的自增长的起始值开始；
+2、多表删除
+1、等值连接
+delete 表1,表2
+from 表1,表2
+where 表1.列=表2.列；
+2、内连接
+delete 表1,表2
+from 表1 join 表2
+on 表1.列=表2.列；
+3、左外连
+delete  表1,表2
+from 表1 left join 表2
+on 表1.列=表2.列；
+4、右外连
+delete  表1,表2
+from 表1 right join 表2
+on 表1.列=表2.列；
+8、修改数据 update
+1、修改字段某个值
+update 表
+set 列名= REPLACE(列名,"张","王")
+WHERE 列名 LIKE "张%"
+2、单表修改
+update 表
+set 列1=值1,列2=值2,列3=值3,...
+[where 筛选条件]
+3、多表修改
+1、等值连接
+update 表1,表2
+set 列1=值1,列2=值2,列3=值3,...
+where 表1.列=表2.列 ;
+2、内连接
+update 表1 join 表2
+on 表1.列=表2.列
+set 列1=值1,列2=值2,列3=值3,...;
+3、外连接
+update表1 left/right join 表2
+on 表1.列=表2.列
+set 列1=值1,列2=值2,列3=值3,...;
+9、数据类型
+1、数值型
+1、整数型：
+int  取值范围（-231-- 231-1）或者（0-- 232-1）
+bigint  取值范围（-263 -- 263-1）或者（0—264-1）
+2、小数型
+float(M,D)  有效位数是7位左右（精度低，一般不用）。
+double(M,D)  有效位数是15位左右（常用）。
+decimal(M,D)  有效位数是28位左右（金融类常用）。
+M   表示数值的整个长度（整数长度+小数长度）；
+D   表示小数点后的长度（小数点不计算长度）。
+如：   123.45    float（5,2）
+表示共存5位数，小数占2位，整数占3位。
+2、字符型
+varchar  储存可变长度字符串，
+char  储存固定长度字符串。
+text  储存较长的文本。
+blob 储存的是二进制串。
+varchar和char的区别?
+1、char固定长度，varchar可变长度；
+如：A： char(7)  B： varchar(7)
+         'abc'
+       A储存的是‘abc’+4位空格，查询时自动去空格；
+       B储存的是字符串实际长度‘abc’。
+2、varchar比char更节省空间，但是char的执行效率更高；
+   一般情况下比如手机号，身份证号等固定长度的设计为char；
+3、char与varchar在进行数据库设计时，必须定义长度；
+char不指定长度不会提示错误，但是默认长度不一定满足需求；
+varchar在进行数据库设计师，必须指定长度，否则会报错。
+3、日期型
+date  只保存日期。
+数据显示类型：YYYY-MM-DD （年月日）
+time  只保存时间。
+数据显示类型：HH:II:SS（时分秒）
+year  只保存年。
+数据显示类型：YYYY （年）
+datetime  保存日期加时间。
+数据显示类型：YYYY-MM-DD HH:II:SS （年月日 时分秒）
+10、库的增、删、改、查相关操作
+创建 create  (ke rui te)
+删除 drop    (zhua pu)
+修改 alter   (ao te)
+查看 show    (sho)
+1、创建数据库
+create database 库名;
+库名起名时尽量全字母（不要使用中文）。
+2、删除数据库
+drop database  库名;
+3、修改字符集   
+alter database 库名
+character set = '字符集';
+4、查看所有的字符集
+SHOW VARIABLES LIKE '%char%';
+5、查看库
+SHOW DATABASES;
+11、表的增、删、改、查相关操作
+创建 create
+删除 drop
+修改 alter
+查看 show
+1、查看表结构
+show columns  from 表名;
+2、查看表索引
+show index from 表名；
+3、创建表 create
+create table 表名
+（列名 数据类型 comment '注释',
+列名 数据类型 comment '注释',
+......
+列名 数据类型 comment '注释'）;
+4、备份表结构
+create table 表2 like 表1;
+5、备份部分结构
+create table 表2
+select 列1,列2...
+from 表1
+where 条件不成立;
+注意：where条件必须不能成立。
+如：0=1或者1=2之类的。
+6、备份表结构与数据
+create table 表2
+select * from 表1;
+7、备份部分表结构与部分数据
+create table 表2
+select 列1,列2...
+from 表1
+where 条件成立
+注意：where条件是成立的。
+如：1=1 或者 。
+8、修改表名
+alter table 表名
+rename to 新表名
+9、添加列
+alter table表名
+add column 列名 数据类型[comment'注释']；
+10、修改列名
+alter table表名
+change column 列名  新列名
+数据类型 [comment'注释']；
+注意：不加comment'注释'会把原有的注释修改；
+11、删除列
+alter table表名
+drop column 列名；
+注意：删除时把对应列的数据也会删除；
+12、修改表的数据类型
+alter table表名
+modify column 列名 数据类型 [comment'注释']；
+modify可以修改表的数据类型、数据长度、备注、约束。
+13、删除表
+drop table 表名；（慎用！！！）
+12、约束
+约束：限制，限制落库数据的规范。
+主键（primary key）：物理上存储的顺序；此字段的值非空且唯一；
+非空（not null）：此字段的值不允许为空； 不关心是否重复
+唯一（unique）：此字段的值不允许重复；允许为空
+默认值（default）：当此字段不填写值时会使用默认值，如果填写值时则使用填写的值；
+检查性（check）：检查落库的数据是否是预设的值；
+MySQL数据库不支持检查性约束。
+外键（foreign key）：维护两个表之间的关联关系。
+外键约束特点：
+1、用于限制两个表的关系，用于保证该字段的值必须来自于主表的关联列的值；
+2、添加从表中数据时，被外键约束的字段的值必须是主表中已经存在的；如果主表中不存在则必须先添加主表的数据，再添加从表的数据；
+3、若主表中的数据被从表引用，则主表的数据不可以进行修改与删除；删除数据时，必须先删除从表数据，再删除主表的数据。
+1、创建约束
+列级约束：
+只支持 主键，唯一，非空，默认 这4种约束；
+表级约束 ：
+只支持 主键，唯一，外键  这3种约束；
+2、添加列级约束
+create table 表名
+（列名 数据类型 约束 [comment‘注释’]，
+列名 数据类型 约束 [comment‘注释’]，
+......,
+列名 数据类型 约束 [comment‘注释’]）；
+创建表时 约束 放在 数据类型 后面，
+但只支持主键，唯一，非空，默认这4种约束。
+3、添加表级约束
+create table 表名1
+（列名 数据类型 [comment‘注释’]，
+列名 数据类型 [comment‘注释’]，
+......,
+[CONSTRAINT 主键别名] PRIMARY KEY(列名)，
+[CONSTRAINT 唯一键别名] UNIQUE(列名)，
+[CONSTRAINT 外键别名] FOREIGN KEY(表1的列名)
+REFERENCES 表名2(表2的对应列名)）；
+创建表时先填写字段，然后再创建约束，
+但只支持主键，唯一，外键这3种约束。
+操作说明：
+constraint  约束； /kənˈstreɪnt/
+constraint后可以给 约束键起别名；
+constraint可以省略，但省略时不能给约束键起别名。
+references 参考文献；/ˈrefrənsɪz/
+references前跟本表的列名，后跟主表的表名（列名），
+两个相连的列数值一样。
+4、修改表约束 modify
+alter table 表名
+modify column 列名 数据类型 约束 [comment'注释']；
+先删除再修改
+5、添加列约束  add
+alter table 表名
+add 约束(列名)；
+先删除再加
+6、删除主键约束
+alter table 表名
+drop primary key;
+7、删除唯一约束
+alter table 表名
+drop index 索引名；
+8、删除外键约束
+第一步：先删除外键的  约束名：
+ALTER TABLE 表名
+DROP FOREIGN KEY  约束名/别名;
+第二步、再删除外键的  索引名：
+ALTER TABLE 表名
+DROP INDEX  索引名/别名;
+9、删除 非空/默认 约束
+Alter table表名
+modify column 列名 数据类型 [comment'注释']；
+13、视图作用：
+1.数据更加安全：
+  将可以开放的数据创建为视图，给访问者访问视图的权限，将需要隐藏的数据隐藏起来，不对外提供；
+2.提高sql执行的效率
+  将复杂的sql创建为视图，下次再需要执行该sql时，可以直接访问视图。
+1、创建视图  view  /vjuː/
+create view 视图名称
+select 语句;
+2、使用视图
+SELECT  *
+FROM  视图名称;
+3、查看视图
+show tables;
+查看表的命令会将所有的视图也列出来。
+4、删除视图
+drop view 视图名称;
+14、创建存储过程语法   procedure  /prəˈsiːdʒər/ 程序
+DELIMITER//
+CREATE PROCEDURE  存储过程名()
+BEGIN
+SQL语句;
+END //
+将;定义为结束符号。delimiter /dɪˈlɪmɪtər/定界符
+DELIMITER;
+如：DELIMITER//  表示将//定义为SQL语句的结束符。
+1、调用存储过程语法
+CALL 存储过程名（）；
+2、删除存储过程语法
+DROP PROCEDURE存储过程名;
+15、创建函数语法     function  /ˈfʌŋkʃn/ 功能
+DELIMITER //
+CREATE FUNCTION 函数名(参数列表) RETURNS 返回类型
+BEGIN
+SQL语句;
+END//
+1、调用函数语法
+SELECT 函数名(参数);
+2、删除函数语法
+DROP FUNCTION 函数名;
+16、事务
+begin
+sql
+......
+sql
+aollback或者commit ;
+1、事务的特点
+1.原子性
+事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。
+2.一致性
+事务必须使数据库从一个一致性状态变换到另外一个一致性状态。
+3.隔离性
+事务的执行不能被其他事务干扰，事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰。
+4.持久性
+事务一旦被提交，它对数据库中数据的改变就是永久性的，不受其他操作和数据库的任何影响。
+2、事务对哪些sql生效？
+只对 update   delete   insert 语句生效。
+fiddler
+1、Fiddler的工作原理
+客户端向服务端发送请求会经过fiddler抓包工具（抓取信息，过滤信息）,fiddler抓取完毕过,再把客户端发送的信息返回给服务器，
+服务器处理完毕后,再把响应的数据返回给客户端会再次经过fiddler抓包工具（抓取信息，过滤信息）,fiddler抓取完毕过，再把服务器发送的信息返回给客户端,在这个过程中Fiddler起到了代理服务器的作用
+2、Fiddler的作用（抓包工具）
+Fiddler可以截取观察网站请求信息（返回信息），帮助测试进行定位BUG与描述
+Fiddler可以拦截修改请求信息,绕过客户端限制，测试服务端的功能
+3、fiddler中怎么快速找到我想要的那个接口
+首先在抓包之前可以清空所有数据,还可以设置过滤,通过接口的英文名判断,还可以通过接口中的参数判断
+4、Fiddler过滤网址     ★★★
+点击Filters页签，勾选“Use Filters”（you re fu lo te si）
+选择Hosts下方的第二个下拉框，选择“Show Only the following Hosts”                  （sho o lei re fao lo wei ying ho si）
+在下方输入框中输入要抓包的主机地址（多个地址用英文分号隔开，如：localhost;127.0.0.1;www.aitengpx.com）
+点击“Actions”(a k shen si),选择“Run Filterset Now”
+如果取消过滤，去掉“Use Filters”的勾选
+5、fiddler怎么抓取https的请求
+点击工具，再点击选项，在选择https，勾选Decrypt https traffic 点击ok                   （di kuai ke te https chuai fai ke）
+6、fiddler怎么设置弱网（怎么做弱网测试），做弱网测试的目的
+点击规则-->性能测试-->点击模拟慢速网络
+修改是点击规则-->点击自定义规则-->修改对应的代码
+弱网测试的目的
+为了模拟服务器响应超时，避免客户在弱网环境下进行多次请求，造成不必要的损失
+7、Fiddler如何连接手机
+安卓
+关闭电脑防火墙，
+点击工具 -->选项-->Connections-->勾选Allow remote computers to connetc-->点击ok
+在DOS命令下输入ipconfig，查看ip地址
+在手机自带的浏览器上搜索  ip地址:fiddler的端口
+下载（手机必须和电脑连接同一个网络）
+点击WLAN，查看详细信息，点击代理，选择手动，输入主机名ip地址和端口，保存，
+8、fiddler怎么做并发
+Shift + r （英文状态下）
+9、fiddler怎么设置断点，断点的作用
+设置请求断点
+选择fiddler菜单中规则->自动断点->请求断点
+也可以直接按F11
+设置响应断点
+选择fiddler菜单中规则->自动断点->响应断点
+也可以直接按Alt +F11
+关闭断点
+选择fiddler菜单中规则->自动断点->禁用
+也可以直接按shift + F11
+作用
+验证服务端和证客户端是否进行校验
+10、fiddler抓不到请求，有哪些原因
+杀毒软件，防火墙没有关闭
+网络原因
+过滤没有关闭
+抓取https请求的时候，证书损坏（未安装）
+抓手机端的包时，手机跟电脑不在同一个局域网内或者手机端没有安装
+11、Fiddler怎么做接口测试
+抓取登录的包，点击登录接口，点击会话详细，点击数据，复制请求信息，点击请求编写，点击Raw（数据），粘贴复制信息，对参数进行修改，点击Execute进行接口测试，
+12、mock的作用以及fiddler怎么Mock数据
+作用：模拟响应报文的格式，返回想要的数据，看页面跳转的变化
+第一种：抓取登录的包，点击自动转发，勾选启动规则，勾选不匹配请求通过，点击接口地址，点击加入规则，选择规则编辑器第二个框，选择create New Response...,点进保存，点击Raw（数据）,删除请求体,编写json格式数据,点击Save保存,点击接口地址，再点击重复，用完之后关闭启动规则
+第二种：在桌面创建一个txt文件,编写json格式数据，点击文件另存为,字符集选择utf-8,点击保存,进入fiddler,抓取登录的包，点击自动转发，勾选启动规则，勾选不匹配请求通过，点击接口地址，点击加入规则，选择规则编辑器第二个框，选择Find file...,选择创建的文件，点击保存，点击接口地址，再点击重复，用完之后关闭启动规则
+13、Charles 和  fiddler的区别?
+https : Charles可以直接抓取,而fiddler需要在tools工具—options去设置才可以抓取
+弱网 : Charles 直接点击菜单栏上面的小乌龟,而fiddler需要在ruls—performance—simulate modem开启弱网设置,或者直接ctrl+R,然后搜索simulate modem,修改上传速度值为500,下载速度值为400,模拟一个2G网络
+断点 : Charles 直接点击菜单栏上面一个六边形的按钮就开始断点,而fiddler 在菜单栏ruls下—breakpoint选择before request请求前断点,after response响应后断点.或者可以使用F11请求前断点,Alt+f11响应后断点
+并发 : charle 在菜单栏中多次点击重新发送请求按钮,而fiddler直接使用shift+R或shift+U,输入并发数量即可.
+
+Jmeter
+1、你们在工作中用jmeter干嘛，你们的jmeter版本号多少
+我们一般用jmeter做接口测试和性能测试，我用的是5.4.3版本
+2、Jmeter怎么汉化
+第一种：在jmeter选项里的语言选项选择简体中文
+第二种：在jmeter中的bin目录里，找到jmeter的系统配置文件
+注释掉原有的语言，新增语言为简体中文
+3、Jmeter安装目录下都有哪些文件介绍
+bin目录文件:
+jmeter.bat:windows的启动文件（windows启动jmeter）
+jmeter.log:日志文件
+jmeter.sh:linux的启动文件(linux启动jmeter)
+jmeter.properties:系统配置文件
+jmeter-server.bat:windows分布式测试要用到的服务器配置
+Docs目录:接口文档目录 （dao ke si）
+extras:扩展插件目录
+licenses:jmeter证书目录（lai shen se ri）
+printable_docs:用户使用手册 （pu rui tai bao）（dao ke si）
+Lib目录：插件文件夹  （li bao）
+4、jmeter工具组成部分有哪些
+资源生成器：用于生成测试过程中服务器,负载机的资源代码.
+用户运行器：通常是一个脚本运行引擎,根据脚本要求模拟指定的用户行为
+报表生成器：根据测试中实时产生的数据生成报表,提供可视化的数据显示方式
+负载发生器：用于产生负载,通常以多线程或是多进程的方式模拟用户行为
+5、Jmeter都有哪些线程组，他们的区别及执行顺序
+setUp线程组（最先执行，用于执行测试前操作）
+线程组  （看做一个虚拟用户组,一个用户就是一个线程）
+tearDown线程组（最后执行，用于执行测试后的操作）
+6、线程组中都有哪些配置
+线程组中的执行动作
+继续：不管对错全部执行
+启动下一次进程循环：停止线程：停止测试：立即停止测试：都是遇到错误就停止
+线程属性
+线程数：也就是并发数（也叫用户数），每个线程将会完全独立的运行测试计划，互不干扰
+时间：用于启动所有线程所需要的时间
+循环次数：线程组在结束前每个线程循环的次数
+7、Jmeter怎么做接口测试
+如果在有API文档的时候,我们可以直接在API文档中获取请求方式,请求url,请求格式,请求参数等信息,如果没有API文档,我们可以通过抓包工具进行抓包分析获取以上信息,然后将相对应的信息填入http请求,填入的过程中如果是json格式或者需要token的请求,需要在请求前添加一个http信息头管理器,填入content_type或者token.
+8、jmeter怎么解决乱码
+第一种：乱码就加一个后置处理器输入 （BeanShell）prev.setDataEncoding("utf-8");
+第二种：在jmeter中的bin目录里，在jmeter.properties
+搜索sampleresult.default.encoding注释掉，
+新增一个sampleresult.default.encoding=utf-8
+9、什么是重定向，自动重定向和跟随重定向的区别
+通过各种方法将各种网络请求转到其它位置
+自动重定向直接得到最后的结果,省略中间的过程,
+而跟随重定向可以显示出中间的过程,最后得到结果
+10、jmeter怎么对上传图片、文件接口进行测试
+用fiddler获取协议，地址，参数等信息，在jmeter中新增线程组，在线程租下新增一个http请求和察看结果树，在http里添加获取的信息最后执行就行了
+11、Jmeter的8大元件以及作用
+配置元件（对静态数据配置元件的支持）前置处理器（对响应前的数据进行处理）定时器（是操作之间设置的等待时间，是控制吞吐量的一种手段）取样器（向服务器发送请求，记录响应数据）后置处理器（对响应后的数据进行处理）断言（检查结果是否一致）监听器（对测试结果进行处理）逻辑处理器（只对子节点起作用，循环控制器控制子节点的循环次数，事务控制器统计子节点的响应时间）
+12、Jmeter的组件有哪些
+组件：每一个功能实现就称为一个组件（最小单位），如，线程组、http请求、察看结果树......
+13、你都用过哪些断言，断言的作用
+作用检查响应数据与预期结果是否一致
+我都用过响应断言作用检查检测响应数据内容断言
+大小断言作用当检查响应字节数断言
+持续时间断言作用对响应时间的断言
+14、断言的模糊匹配规则有哪些
+Contains(包括)--返回结果包括你指定的内容
+Equals(相等)--返回结果与你指定的结果一致
+Matches(匹配)--相当于相等 (这个一般不适用，匹配内容过长会导致匹配不上)
+Substring(字符串)--返回结果是指定结果的字符串
+Not(否)--不进行匹配
+15、参数化的作用以及怎么用jmeter做参数化
+实现不同的人进行不同的操作，
+在jmeter中添加一个线程组在线程组中添加一个用户参数和http请求，在用户参数中添加名称和用户后在请求里添加参数，参数值写用户参数的名称，格式是${用户参数名称}最后执行查看结果树
+如果参数过多我会桌面上创建一个txt文件，把参数写到txt文件内，不同的值用英文下的逗号隔开，编写完成后，点击文件另存为，字符集改为utf-8，在jmeter添加CSV数据文件设置，添加TXT文件路径，文件编码，以及每个文件的列名（自义定），在选择true忽略首${列名}，执行，查看结果树
+16、Jmeter元件作用域和执行顺序
+取样器：不与其它元件发生作用,因此不存在作用于问题，但必须放在线程组下面
+逻辑控制器只对其子节点的取样器有效或逻辑控制器
+而其它元件需要与取样器等元件交互
+元件的执行顺序
+(1)配置元件(Config Element)
+(2)前置处理器(Per Processors)
+(3)定时器(Timer)
+(4)取样器(Sampler)
+(5)后置处理器(Post Processors)
+(6)断言(Assertions)
+(7)监听器(Listener)
+17、调试取样器的作用
+当http请求加密时，我可以在线程组中添加一个调试取样器查看参数
+18、http请求默认值的作用
+可以添加每次请求相同的的数据（相同的组下，http请求不输入对应的值会输入，默认使用默认值）
+19、集合点同步定时器的作用
+实现同一时间执行多少个请求
+20、怎么做并发测试，看那些指标
+添加一个线程组（设置相应的线程数）
+添加一个同步定时器
+添加一个http请求
+添加一个聚合报告
+平均值（单位ms）：访问一次所消耗的时间（每次访问消耗的时间）
+样本：
+异常%：34.57%访问超时（0.0%表示正常情况）
+吞吐量：每分钟传输和响应的数据是1.1qps/sec（每秒处理的请求数）
+21、用jmeter生成HTML性能测试报告
+把要生成测试报告的脚本保存到jmeter的bin下（文件名必须是英文）
+第一步：进入DOS命令下切换盘符
+第二步：输入cd 文件路径
+第三步:输入命令生成日志和报告
+jmeter -n -t 文件名.jmx -l jmeter日志 -e -o ./jmeter报告
+-n  非图片运行
+-t  后面跟要执行的脚本名称
+-l  后面跟要生成的日志名称（jmeter日志，在jmeter目录下的bin目录下必须不存在）
+-e  生成HTML报告
+-o  生成存放html报告的目录名称（jmeter报告）
+22、Html报告中有哪些内容
+开始时间;结束时间;容忍值;挫折值;通过率;统计数据;错误数据
+23、聚合报告都有哪些内容
+平均值（单位ms）：访问一次所消耗的时间（每次访问消耗的时间）
+           样本：
+           中位数：50%用户的响应时间
+           百分数：响应时间
+           最小值：最快访问速度
+           最大值：最慢访问速度
+           异常%：34.57%访问超时（0.0%表示正常情况）
+吞吐量：每分钟传输和响应的数据是1.1qps/sec（每秒处理的请求数）
+24、Jmeter关联的作用
+定义：接口与接口之间产生联系
+实质：第二个接口把第一个接口的响应结果做为参数使用
+做关联的原因：解决接口之间的业务逻辑和业务依赖
+25、正则表达式中（.+？）各代表什么意思
+()含义：括起来的部分就是要提取的
+.含义：匹配任何字符串
++含义：一次或多次
+?含义：在找到第一个匹配项后停止
+26、jmeter怎么做关联
+新建一个线程组,在线程组新建2个http请求,放在正则表达式提取器或者边界提取器,查看结果树,我们先在第一个请求中输入对应的请求信息后,先进行执行,查看第一个请求的响应结果,将第二个请求需要用到的响应内容提取出来,放在正则表达式提取器中,设置变量名称,需要的内容使用(.+?)进行代替,填充模板,匹配数字,缺省值,缺省值一般设置为null,设置完成后,在第二个请求中用到第一个请求的响应数据时,使用${变量}进行调用
+当然我们还可以使用边界提取器进行提取第一个请求的响应信息,设置名称,左边界,右边界,匹配数字,缺省值后,可以使用${名称}进行调用
+24、cookie管理器的作用
+如果jmeter请求过程中出现需要cookie的情况时,我们可以通过添加cookie管理器来获取请求中的cookie值.
+25、jmeter怎么连接数据库
+我会先把jmeter链接数据库的包放在jmeter目录下，
+在测试计划中导入jmeter连接数据库的jar包,新建线程组,在线程组中新建jdbc配置文件,jdbc取样器,以及查看结果树,在jdbc配置元件中输入设置的名称,最大连接数,数据库的url地址(jdbc:mysql://数据库ip地址:端口号/库名),驱动程序选择com.mysql.jdbc.driver,用户名,密码后,到jdbc取样器中输入在配置元件中设置的名称,选择操作方式,输入sql语句,执行后到查看结果树中进行查看即可
+26、jmeter怎么对数据库做参数化
+现在数据库中导出表的csv文件,然后在jmeter中新建csv配置元件,http请求,查看结果树,在csv配置元件中导入csv文件,选择格式,输入对应的变量名,不忽略首行,设置完成后,如果在请求中用到对应参数的时候,可以直接通过${变量名}直接使用,执行测试后,直接在查看结果树中查看即可
+27、jmeter怎么对数据库进行性能测试，看哪些指标
+在连接数据库的基础上,新建一个聚合报告,在线程组中设置并发的一个线程数,设置完成后,执行测试,结束后查看聚合报告即可
+看样本数,平均值,异常%,吞吐量
+28、jmeter函数的种类及区别
+自定义函数以及内置函数
+区别就是内置函数的适用范围比自定义函数的适用范围更广
+29、你在jmeter中都用过那些内置函数
+我用过CSVRead函数主要是用于实现csv文件参数化
+还用过Random（随机数函数），counter（统计记录数）主要是用于统计执行次数，RandomDate（随机日期函数），Random String （随机截取字符串），time（系统当前时间）（时间可能会报错因为jmeter对空格要求很严）
+Jex13函数（）groovy函数（）
+30、内存泄漏原因以及出现的情况
+第一种：定义一个变量，却没有在程序中使用
+第二种：本可以使用更小内存的数据类型去储存，却用了一个更大内存的类型去储存
+第三种：new一个对象，却没有实例化这个对象
+可能会出现卡顿，闪退，
+31、分布式的作用
+单台机子运行并发用户数过大，Jmeter自身承受不了压力,并借此来获取更大的并发用户数
+32、Jmeter怎么做分布式
+首先在jmeter下的bin目录下，选择jmeter.server.bat双击打开，如果显示错误，在jmeter下的bin目录下找到jmeter.properties双击打开，找到server.rmi.ssl.
+disable=false注释掉，并且新增一个属性为server.rmi
+.ssl.disable=true保存，再重新打开jmeter.server.
+bat，再打开DOS命令输入ping 代理机的ip地址，如果能连接，那么就在jmeter下的bin目录下找到jmeter.（代理机必须与主机在同一个局域网内，如果在DOS命令里连接不上，证明不在一个局域网内，能连接，则在一个局域网内）jmeter.properties双击打开，找到remote_hosts注释掉，并且新增一个域名为remote_hosts=本机ip地址:端口,代理机ip地址:代理机端口号保存（添加多个代理机，用英文下的逗号隔开），添加完成后重启jmeter，在jmeter中添加一个脚本，点击运行选项，选择要远行的代理机，也可以点击运行启动所有来运行（代理机，和主机的jmeter.server.bat必须打开，运行启动所有是所有代理机和本机一起远行）
+33、中你都用过哪些逻辑控制器
+循环控制器控制子节点的循环次数
+事务控制器统计子节点的响应时间
+ForEach控制器循环多次读取自定义变量值
+（名称命名规则：变量名+下划线+数字（从1开始计数））
+如果（If）控制器根据给定表达式的值决定是否执行子节点(比如3==3,3>2,3<2)
+如果勾选interpret Condition Variable Expression?
+就要用groovy函数或jex13函数包装以下(比如包装3==3
+,3>2,3<2)
+交替控制器不勾选子控制器（线程数=用户数，线程循环=用户循环到交替控制器多少次）勾选子控制器（把子控制器当成单一元素使用（默认执行第一个请求））勾选跨线程（线程数=用户数，线程循环=用户循环多少次）
+仅一次控制器不管线程数有多少循环次数，里面的请求都只会执行一次
+随机控制器随机执行一个子节点
+随机顺序控制器随机顺序执行全部子节点
+Switch控制器里的Switch Value输入的数字是多少，就执行第n+1个请求（索引从0开始）
+While控制器只要最后一个请求不是失败的情况下，会一直循环，最后一个请求失败，请求停止（跟之前的请求 是否失败无关），在While控制器输入last后它会判断外层请求是否正确，如果错误就不能执行While控制器的请求输入条件表达式（使用groovy函数函数的结果为"true"或"false"来判断）
+34、线程组和循环次数有什么区别
+线程数代表用户数，线程循环代表用户循环多少次
+循环次数控制交替控制器的运行，线程数不起作用
+线程数作用于仅一次控制器，循环控制器无效
+35、Jmeter如何做多接口测试
+如果这些接口之间存在业务逻辑或者依赖的情况时,我会考虑使用关联的方式进行接口测试,比如正则表达式提取器,边界提取器,如果接口之间不存在业务逻辑时,我会考虑使用逻辑控制器来进行多接口的测试,比如说for each控制器,if控制器,循环控制器,交替控制器,仅一次控制器,随机控制器,随机顺序控制器,switch控制器,while控制器
+36、随机控制器和随机顺序控制器的区别
+随机控制器随机执行一个子节点
+随机顺序控制器随机顺序执行全部子节点
+37、后端一般会返回那些信息
+后端返回给前端的标识码（code）
+后段返回给前端的提示文案信息（massage）
+后端把前端需要的信息返回（data）
+38、ant环境变量配置
+在D盘在创建一个ant文件夹,把ant放进ant文件夹里解压,配置环境变量输入变量名ANT_HOME变量值压缩包路径,编辑Path，变量值添加%ANT_HOME%\bin;编辑ClassPath，最后面添%ANT_HOME%\lib在DOS下输入ant -version查看是否成功,
+39、Jmeter怎么做录制脚本
+我会在浏览器的设置里，设置一个代理服务器，输入ip地址和端口号(四位数)，完成后，打开jmeter，在测试计划下添加非测试元件里的HTTP代理服务器输入端口号(浏览器设置的端口)，目标服务器输入(保存到哪里)，分组:每个组放一个控制器，点击启动，在浏览器里录制的脚本(比如登录)，
+40、Jenkins的作用，什么是持续集成
+jenkins:1.拉代码--2.建分支--3.切主干--4.合并分支--5.把代码推向云仓库
+持续集成:每次重复相同的动作
+作用:1.持续集成2.自动化测试3.监控外部工作
+41、ant的作用
+将软件的编译,测试,部署等步骤联系在一起加以自动化的工具，大多用于开发
+42、jmeter+ant+jenkins怎么搭建的接口自动化性能平台,xml脚本中包含哪些信息
+将jmeter下tetras中的ant-jmeter-1.1.1的jar包放入ant的lib目录下,如果想要发送到邮箱,就需要将邮箱的三个jar也放入lib目录下,我们在写一个xml文件,这个文件一般包含了日期时间,jmeter的路径地址,报告的生成路径,指定发送的邮箱,邮箱的账号以及授权码,打开jenkins，将xml文件放入ant的bin目录下,点击系统管理,进入插件管理,搜索change,安装change插件,然后新建一个的项目,选择build,选择调用ant,在build file中填入xml文件的绝对路径,点击保存,构建项目后,执行项目后，新建文件夹中就会自动生成一个测试报告,同时邮箱也会生成一个报告,收到报告后,打开报告,查看其中的样本数,平均响应时间,成功率,失败率等.
+43、Jenkins发布流程
+在jenkins中找到相应的服务名
+找开发要分支名--找到这个分支名
+选择相应的环境，点击开始构建，代码就更新了
+44、Jenkins怎么修改端口号
+在jenkins目录下找到jenkins.xml点击右键已记事本的方式打开找到httpport,更改端口号,重启服务名即可
+45、测试人员和开发人员主要用jenkins做什么
+测试人员主要用jenkins做一些接口测试
+开发人员主要用jenkins来发布分支,更新代码(把分支发布相应的测试环境供测试人员测试使用)
+46、你怎么用jenkins做接口自动化
+做接口自动化一般我会搭配逻辑控制器使用
+（例如我会模拟一个用户先进行登录，然后再交替控制器下选择商品，提交订单，取消订单，让他们代替提交）
+47、Mq（消息队列）是中间件
+比如客户向客服进行通信功能，
+在中间放一台mq服务器，客户向客服发送信息，要经过mq服务器（发送消息和接受消息），客服同理，然后在mq服务器上面设置两个文件夹（请求文件夹Req和响应文件夹Res），客户的请求数据（xml格式）通过webservice发送到mq服务器的Req文件夹下，并轮询Res文件夹获取相应数据，客服轮询Req文件夹并通过webservice返回数据（xml格式）到Res文件夹，
+一般测mq问题都是用过日志来查看（less -f 日志名.latacala.日期.out）
+还有在使用银行卡进行支付(输入密码),客户端跟银行服务端中间存在一个异步服务器,客户端先将请求信息发送到异步服务器,异步服务器就将信息发送到银行服务端,银行服务端经过业务处理后,将响应信息返回到异步服务器,异步服务器在将信息返回客户端
+48、http协议的主要特点
+1.支持客户/服务端的模式
+2.简单快捷:只需要传输请求方法跟请求路径,协议简单,程序规模比较小传输速度快
+3.灵活:可以传输任意类型的数据对象,正在传输的对象由content-type标记
+4.无连接:每次连接只处理一个请求,能节省传输时间
+5.无状态:对于事务处理没有记忆能力,
+6.连接方式分为长连接和短连接
+49、长连接与短连接区别
+短连接：多用于操作频繁
+长连接：数不能太多的情况
+区别：短连接每次操作都要建立连接，操作的处理速度会降低
+长连接操作一次，下次操作时直接发送数据就可以了，不用再建立TCP连接
+Charles
+1、Charles怎么抓取https的请求
+点击Help里的 SSL Proxying里的Instll Charles Root Certificate安装证书，点击Proxy里的SSL Proxying Setting...点击Add输入域名保存即可
+2、Charles怎么做弱网测试
+点击小乌龟即可
+3、Charles怎么过滤
+点击搜索框搜索过滤（取消过滤，清除即可）
+点击Proxy里的Recording Settings，选择Include点击add输入域名保存过滤，（取消勾选，点击OK）
+4、Charles怎么断点
+点击Proxy里的Breakpoint Settings勾选Enable Breakpoint点击add添加Host：域名，选择Request（请求前）或Response（响应后）点击ok开始断点断言不了，重启charles即可，
+取消断点右键Breakpoints选择close即可
+5、Charles怎么做接口测试
+抓取一个包
+点击工具栏中的笔，然后修改数据进行接口测试
+6、Charles重新发送请求（并发）
+选中请求点击循环符号
+7、Charles怎么看会话
+点击对号
+8、Charles的工作原理，出现unknown怎么处理
+代理服务器的作用，点击Proxy里的SSL Proxying Setting...点击Add输入域名保存即可
+9、Charles怎么抓取手机的包
+手机和电脑连接同一个网络，关闭防火墙，杀毒软件
+点击proxy里的proxy Setting查看端口号是否冲突，在WLAN的信息里选择手动代理，输入ip地址和端口号，输入完成后，charles会弹出一个弹框，点击允许（ALLOW）
+在浏览器里输入chls.pro/ssl完成
+Chls.pro/ssl是在Help里的 SSL Proxying里的Instll Charles Root Certificate on a...
+如果出现unknown我会把域名放到代理服务器
+10、Charles与fiddler的区别
+断点不同：Fiddl是全部断点，charles是筛选断点，
+弱网不同：Fiddl可以模拟多种网络，charles只能模拟一种网络
+并发不同：Fiddl是shift+r，charles是点击重复
+连接手机不同：Fiddl是先下载后手动代理，charles是先代理，后下载
+Fiddl是不能暂停，charles是可以暂停
+postman
+1、postman怎么导入和导出接口测试记录
+我会点击接口集的三个点选择export来导出，导入的话我会点击impost，把桌面的文件拖拽进来，
+也可以点击设置settings中的data来进行导入和导出
+2、postman怎么做接口测试
+我会根据api文档进行请求方式，接口地址，请求参数，请求头来进行测试，没有api文档的话，我会使用fiddler抓包工具或使用浏览器F12进行抓取信息，如果是app端的话我会用fiddler链接手机，进行测试
+3、如何curl接口代码
+点击code，搜索要curl的格式，
+Appium  和雷电  dos命令下输入
+1、查看当前连接的设备
+adb devices    查看当前连接的设备   （de wai se z）
+接到计算机的android设备或者模拟器将会列出显示
+2、开启ADB服务
+adb start-server      （si da t）（se wo）
+3、关闭ADB服务：
+adb kill-server
+停止 adb 服务
+4、安装一个apk
+adb install -r (APK路径)
+-r 代表如果apk已安装，重新安装apk并保留数据和缓存文件。apk路径则可以直接将apk文件拖进cmd窗口，记得加空格。
+手机上要进行操作，才可以操作成功
+5、直接卸载：
+adb uninstall apk包名：关于软件的所有东西都删除卸载（apk包名问开发要或者百度）com.ss.android.article.news
+adb shell cmd package uninstall -k apk包名：卸载app但是保留数据和缓存文件 （shai er） （po kei chi）
+6、查看报名和界面名  （shai er）
+adb shell dumpsys window | findstr “usedApp”（dang pin si）
+，7、列出手机装的所有app的包名：
+adb shell pm list packages（pa kei ji ）
+8、列出系统应用的所有包名：（shai er）（pa kei ji ）
+adb shell pm list packages -s
+9、列出系统应用：（shai er）（lai si te）（pa kei ji -s）
+adb shell pm list package -s(与第七个同理)
+10清除应用数据与缓存：（shai er）（kei li er）
+adb shell pm clear （apk包名）
+11、把文件从电脑导入手机
+adb push 文件路径 sdcard/要push的路径
+sdcard/：手机端的根目录(po chi)（sai de ka de）
+12、把文件从手机导入电脑
+adb pull sdcard/文件名称 要pull的路径 （pao）
+如果push或者pull后看不到文件，可能是手机需要root管理权限
+13、查看日志:（lao ge kai te）
+adb logcat
+结束查看日志：ctrl+c
+14、通过查找关键字（lao ge kai te）
+adb logcat | find “关键字”
+15、查询某一时刻的日志
+adb logcat 时间（时间格式为2020-09-22 09:30:53）
+16、查看日志有几种（lao ge kai te）时间
+通过adb命令来查看日志（adb logcat）
+通过数据库的日志表查看
+通过服务端查看（tail -f）
+前端开发在app里面添加一个vconsole工具，可以查看日志（）
+17、查看手机的分辨率（可以在你的设置-关于手机里面查看）
+adb shell wm size（sai ri）
+18、查看屏幕密度
+屏幕密度即每英寸屏幕所拥有的像素数，屏幕的像素密度越大，显画面细节就越丰富（shai er）
+adb shell wm density(dai sei ti)
+19、查看adb版本
+adb version （wei shen）
+20、查看Android设备型号（可以在你的设置-关于手机里面查看）
+adb shell getprop ro.product.model(pu rua da kei te)（mao de）
+21、查看 Android 系统版本（可以在你的设置-关于手机里面查看）
+adb shell getprop ro.build.version.release（rui li si）
+22、查看cpu使用情况（gai te pu ru pu）（biu de）（wei shen）
+adb shell dumpsys cpuinfo（dang pin si）
+23、查看具体的cpu使用情况
+adb shell dumpsys cpuinfo | find “包名”（dang pin si）
+24、查看当前进程的信息(监控相关资源)
+adb shell top -m -10
+adb shell ps   查看进程
+adb shell dumpsys meminfo（dang pin si）
+查看软件内存
+adb shell dumpsys meminfo pid（dang pin si）
+查看pid对应的软件占用的内存
+25、APPium和雷电的链接
+Ui
+26怎么用adb连接真机（手机）
+点击手机设置，点击系统管理，点击开发者选项，打开开发者选项，打开USB调试，用数据线链接手机和电脑，在DOS命令下输入      adb devices，如果出现如果出现设备号表示连接成功，
+性能测试
+1、什么是性能测试
+定义;基于协议模拟用户发出请求，对服务器形成一定的负载，来测试服务器的性能指标是否满足要求
+2、你们公司服务器都有哪些配置
+公司的服务器配置
+我们公司服务器的规格类型有;2核4g,4核8g,8核16g,16核32g
+数据库用的是；8核16g的服务器
+3、性能测试分类
+狭义测试;通过模拟生产运行的业务压力和使用场景组合，测试系统的性能是否满足生产性能要求
+负载测试;对一个系统不断进行加压,直到系统费崩溃,找到最大的并发量
+压力测试;在一个很大的强度下进行施压,并且运行一段时间,看系统的稳定性
+并发测试;模拟用户同时去访问一个系统或操作,看是否存在并发访问问题(每个用户只运行一次)
+配置测试;调整软硬件环境,使系统达到一个最佳状态,一般用于性能调优
+可靠性测试;在一定的压力下,运行较长的时间,一般为2--3天
+4、性能测试什么时候介入
+使用场景(介入);功能和接口没有问题后,在做性能测试
+5、负载跟压力的区别；压力跟并发的区别；压力跟可靠性区别
+压力与负载的区别;
+负载是不断施压,强度不大
+压力是持续施压，强度大
+压力与并发的区别;
+同样强度下,并发只运行一次,压力需要持续运行
+压力与可靠性的区别;
+同等强度下,压力运行时间较短,可靠性运行时间较长
+6、性能测试报告中的各项指标未能达到预期，可能存在哪些瓶颈
+性能测试指标;
+1、比如前台注销一个账号,数据库中的用户表就会新增一条数据,后台就      可以读取数据库的数据信息
+2、后台新增一个商品,数据库中的商品表中新增一条数据,前台就会展示      商品信息。
+响应时间;响应时间不包含前端页面的渲染时间
+1、原则;258 (2秒内--优秀;2-5秒内--良好;5-8秒内--较差)
+2、tps;每秒处理的事务数（就是服务器一秒内处理多少个操作）
+资源利用率;在一定的负载情况下，服务器资源占用情况
+1、CPU利用率;不允许超过80%(cpu刚启动的时候可以达到60%        左右)
+2、Mem利用率;不能超过80%(内存占比)
+3、带宽利用率;100Mbps=12.5MB/s(1Byte=8bit)
+     (一般指定的网速传输数据时只利用到网速的八分之一)
+4、如果资源利用率太小，会造成资源浪费(可能花大价钱弄到的资           源,结果并发就十几个人,资源浪费了)
+用户数;
+并发用户数;同一时间,以不同的用户向同一个接口发送请求
+并发请求数;同一时间,同一个用户向同一个接口发送多个请求
+7、你在做性能测试中,都会看哪些指标;
+样本数,平均响应时间,异常,吞吐量(tps事务/qps请求),CPU,mem,网络利用率,磁盘, 并发用户数,并发请求数
+8、性能测试流程;
+需求分析--测试计划--测试方案--用例设计--测试执行--定位分析问题
+需求分析;测试对象(常用的,核心的)，(如;登录,注册,搜索,添加购物车)
+确定性能指标;吞吐量TPS(服务器每秒处理的请求数量),响应时间(从浏览器发出请求,服务器处理器请求,接收响应需要的时间),用户数,并发数,资源利用率(cpu,mem,磁盘io(磁盘的输入与输出,就是读写操作)),network(网络),测试场景( 单一场景;多人对一个功能，混合场景;多人/一人多功能)
+测试计划
+ 测试目标,测试人员组织(选择测试人员进行性能测试),压测进度安排,压力机(配置,要求,数量),风险
+测试方案
+测试工具(loadrunner,jmeter),开发环境(dev),测试环境(test,uat),预生产环境(pat),生产环境(www)测试策略(单一场景,混合场景)监控工具(linux系统),nmon(就是用xshell连接服务器,去监控相关资源),
+rpc,jvisualVm,Spotlight
+用例设计
+测试脚本(基于脚本的用例)
+测试执行;
+脚本编写,场景监控设计,运行场景,监控场景,测试报告
+定位分析问题
+后端;代码(逻辑错误,算法错误,内存泄漏,内存溢出),数据库(数据库死锁,未加索引或索引未生效),应用服务器(服务器异常)
+前端;服务器已返回信息，页面渲染比较慢
+网络;网络带宽较低，网络性能中断
+硬件;cpu利用率大于80%，可用内存较少，内存利用率不能超过80%
+9、性能测试过程中，吞吐量上不去（吞吐量比较低），可能有哪些原因导致
+压力机本身性能瓶颈
+网络IO瓶颈（上传与下载速度）
+中间件（tomcat/nginx/mysql）连接数限制 （中间件：还有radis，mq消息）
+Java线程的阻塞、等待
+本系统资源的瓶颈（cpu、内存、磁盘、网络等）
+其他外部系统响应时间过长，造成本系统的time-wait
+10、并发访问问题怎么解决（搭配自己项目说），悲观锁原理和乐观锁原理
+在我最近的项目中，多个用户同时添加一个商品时，出现的并发问题
+解决方法；我向开发反馈后，开发添加了悲观锁，乐观锁
+悲观锁：如果发生并发冲突，屏蔽一切可能违反数据完整性的操作 （将提交第一条数据进行锁定，处理完成之后，再处理第二条）
+乐观锁：如果不会发生并发冲突，只在提交操作时检查是否违反数据完整性 （在数据库中先设置一个值（一般是version），再根据请求去检查这个值是否与数据库设置的一样，如果一样更新他，还有值一样，不再更新，只更新一次）
+11、什么是进程，什么是线程，关系和区别
+进程；正在运行的程序就是进程，
+线程；线程依托于进程的运行
+12、怎么判断崩溃的点
+查看聚合报告的异常（超过0.5%）就是崩溃的点
+还可以查看平均响应时间图表上升（增长）的非常快
+吞吐量图表在某一时刻下降的非常快（非常明显）
+13、并发用户数，平均响应时间，TPS三者之间的关系
+吞吐量=并发用户数除以平均响应时间
+TPS；该插件的作用是在测试脚本执行过程中，监控查看服务器的TPS表现————比如整体趋势、实时平均值走向、稳定性等
+平均响应时间；该插件的主要作用是在测试脚本执行过程中，监控查看响应时间的实时平均值、整体响应时间走向等
+用户数;
+并发用户数;同一时间,以不同的用户向同一个接口发送请求
+并发请求数;同一时间,同一个用户向同一个接口发送多个请求
+14、项目中压力测试的指标
+并发数（压力量）：800
+外网：平均响应时间：1.1s    吞吐量：600qps/s
+内网: 平均响应时间：0.2s    吞吐量：1200qps/s
+15、怎么做负载测试，目的是什么
+在jmeter/lib/ext目录下导入pelguns-manger 插件
+点击选项-pelguns-manger去安装jpgc插件
+添加一个jpgc线程组（用户数，每秒启动多少 个用户，持续运行一段时间，每秒停止多少个用 户）
+添加一个你要测试的接口
+添加聚合报告，添加三张图表（用户运行图， 平均响应时间图表，吞吐量图表）
+目的：得出系统崩溃时刻，那个点最大并发量 （1,找到崩溃的那个对应的聚合报告里面样本数- 并发请求数，2,找到崩溃点对应的时间，再根据这个时间在用 户运行图里面找到的用户数-并发用户数）
+16、怎么做压力测试，看那些指标
+在jmeter/lib/ext目录下导入jpgc.pelguns-manger 插件
+点击选项-pelguns-manger去安装jpgc插件
+添加一个jpgc线程组（用户数，持续运行一段 时间）
+添加一个你要测试的接口
+添加聚合报告，添加三张图表（用户运行图， 平均响应时间图表，吞吐量图表）主要看平均响 应时间图表跟吞吐量图表是否在一条水平线上-- 性能是否稳定
+查看平均响应时间，吞吐量，异常（0.5%）， cpu（80%），内存，磁盘io，网络是否满足需求
+17、你在项目中那里做的压力测试，模拟的并发量是多少，达到的平均响应时间与吞吐量各是多少
+模拟的并发量是800，内网平均响应时间是0.2s，吞吐量是每秒1200请求书
+外网平均响应时间是1.1s，吞吐量是每秒600
+18、怎么导出csv数据报告，里面有那些值
+在桌面创建一个csv文件，在jmeter里创建一个你要的请求脚本，添加一个聚合报告，点击浏览，找到新创建的文件，点击保存，点击ok，在jmeter里执行脚本，返回桌面打开新建文件查看内容
+19、当没有需求文档，也没有明确指标，你怎么设 计场景（你怎么判断你的指标可以）
+首先做负载-找到最大并大量-再去做压测
+吞吐量越大越好，平均响应 时间越小越好
+根据同行业的相关接口性能指标去判断
+根据与开发和产品去沟通，看指标是否满足
+20、怎么做的性能测试？
+我一般用jpgc插件来做这个新能测试，比如说在jmeter下添加一个jpgc线程组，添加一个请求，一个聚合报告，三个jpgc表格（用户运行图， 平均响应时间图表，吞吐量图表）
+21、公司人员配置
+我们公司有5个测试，5个前端开发，16个后端开发，iOS 开发 : 2人
+安卓开发 : 2人
+运维 : 2人
+一个项目配置:
+测试 : 3人
+开发 : 10人左右(3个前端,7个后端)
+22、测试开发比
+1个测试，3开发
+23、版本迭代 : 根据项目需求来
+大版本 : 2-3周迭代一次
+小版本 : 一周迭代一次
+24、用例的分类 :
+冒烟测试用例（一个功能区一条用例，比如：登录的账号，密码，）
+系统测试用例
+回归测试用例
+25、你们是怎么进行回归测试的?
+
+26、你都写过哪些测试文档
+测试计划，测试报告，缺陷报告、回归文档，（用户的候车
+把所有的不走详细信息）
+27、软件上线的标准
+提交的BUG全部成关闭状态
+测试用例执行率达到100%
+回归测试也没有问题
+产品已验收
+28、测试用例的覆盖率，怎么提高你的测试用例的覆盖率
+达到95%以上
+首先用xminl梳理测试点，在根据等价类，边界值等方法来写测试用例
+29、怎么测试优惠券
+状态：未使用、已使用、已过期；
+领取次数；
+时间决定着有效期；
+优惠的金额；
+不在同一个供应商下；
+一次只能使用一张券，不能叠加；
+30、优惠券的使用逻辑
+1、默认使用优惠最大的券
+2、如果面额都一样，优先使用快过期的那张
+3、如果面额、时间都一样，优先使用卡券表里面最先生成卡卷id的那张卷
+31、优惠券的退还逻辑
+假如:在商城里买了三个商品,一共25元,用了一张满20元减5元
+的优惠券,现在退了一个商品,优惠券怎么处理
+答:1、如果其他两个商品满20元,券不退,另一件商品按原价返回
+2、如果其他两个商品满20元,券不退,商品按原价支付
+买了一个商品,优惠券还有几个小时过期,第二天退款,优惠券怎么处理
+1、下单的时候还剩多少时间,退还的时候就剩多少时间
+2、券直接过期,钱原价返回
+32、问：你们设计用例时常用的测试用例设计方法有哪些？
+答：当项目中碰到有输入框时，我会使用等价类方法来设计有效等价类和无效等价类；通常也会结合边界值法考虑有效边界值和无效边界值。
+(比如：在登录和注册)
+当涉及到业务流程的地方会使用场景法和流程法结合来测。
+当输入与输入之间有制约关系，输入与输出之间有因果关系时我会使用 因果图法来测；
+若结果只有真与假时我会使用判定表。
+如果测试组合项比较多时，我会考虑使用正交表。
+在用例设计完成后我还会根据错误推断法结合以往的经验，看看是否还有遗漏的测试点。
+地址
+时间戳: https://too1.1u/ timestamp
+编码解析工具:https://tool. chinaz. com/tools/unicode. aspx
+黑马人力资源:http://ihrm-test. itheima. net/#/login
+蓝天人事管理系统:https://www. dmxsw1. top/login/
+rabbit测试平台:http://rabbittest. xyz/public/#/login?redirect=%2Fdashboard
+iwebshop商城:http://shop. aircheng. com/
+聚合:https://dashboard. juhe. cn/ account/authentication/ index
+jmeter下载地址:https:// jmeter. apache. org/
+上传图片网址:https://element. eleme. cn/#/ zh-CN/ component/upload
+邮箱    cclzvwpnsmlzciji
+Charles地址
+官方下载地址：https://www.charlesproxy.com/download/
+在线破解地址：https://www.zzzmode.com/mytools/charles/
+翻译工具工具地址：https://www.deepl.com/translator
+接口工具：https://www.kancloud.cn/handone/we7api/780028
+身份正号地址：http://sfz.uzuzuz.com/?region=360482&birthday=19971006&sex=1&num=30&r=24
+地区坐标：http://api.map.baidu.com/lbsapi/getpoint/index.html
+HTML地址：https://www.dcloud.io
+半开放问题
+1、查看网络信息
+ping  （pin）网址或IP地址 ：检查当前网址网络是否连通。
+ipconfig （ai pi kang fei ge）–all ：显示当前计算机所有网卡信息。
+2、自我介绍参考
+面试官好，我叫王蒙，来自安徽，从事测试工作2年了，在这2年来我做过3个项目；
+第一个项目是：人力资源（我负责的是管理模块）
+第二个项目是：QQ（我负责的是登录模块的测试）
+我熟练掌握黑盒测试和接口测试，
+对自动化测试也有所了解。
+以上就是我这2年来的工作经历。
+3、怎么保证你提交的BUG是一个高质量的BUG
+bug单里描述尽量简介直白
+去定位原因是前端问题，还是后端问题，指给不同的开发
+附件上附上bug截图
+4、你提交的BUG开发认为不是个BUG你会怎么做？
+先反问开发人员？你在什么情况下认为它不是个BUG？
+核对需求文档是否理解有异；
+把BUG的重现步骤以及相关的截图和运行日志一并发给开发验证；
+向经理报风险，通常会在周五下午的周总结会上提出，并解决。
+5、项目测试完结，上线之前最后一轮整体的测试也称为回归测试；版本迭代时，对老版本进行的测试也是回归测试？
+基本上要与工程开发人员保持一致，大的项目，一般１－２个月安排做一次“回归测试”，小的项目１－２周，以此类推，相对大的项目每次“回归测试”的时间大概维持在十几天左右，　小的“回归测试”大概维持在2－3天左右！
+6、问:我想要查看Java进程怎么查？★
+答：您查这个进程是想要做什么？
+如果想要查询看是哪些Java进程占用的电脑资源比较多是用
+ps –aux|grep （）以及对应的java关键字就可以查出来
+（如：ps –aux|grep java）；
+如果是想要查哪个进程有问题把它杀掉，可以用ps –ef|grep 以及对应的Java关键字（如：ps –ef|grep java）；
+然后用kill或者kill -9 和对应的pid号，就可以杀掉目标进程。
+grep （ge ru pu） java （jia wa）
+7、软件测试的流程
+产品经理接到项目后先立项，然后再把相关的需求文档整理出来，并召集所有技术人员一起开个需求评审会议；
+会议结束后，我们测试人员会再次召开一个会议，主要就是分配任务，然后编写《测试计划》；
+《测试计划》编写完成后开始搭建环境；
+然后就开始根据需求文档编写测试用例；
+写好测试用例后部门人员之间先评审下，然后会跟开发、产品经理等技术人员一起评审用例，完善后由测试经理批准后执行用例测试；（通常用例评审一轮，通过率能达到95%以上，回到部门后做些删、减修改就行了，不会再进行二轮评审了。）
+在大规模测试前会先进行一轮冒烟测试，冒烟测试通过后，开始进行全面测试；
+在测试的过程中，如有BUG，就通过禅道把BUG提交给对应的开发人员去修改，修改完之后，我们会对BUG复测，如果还有问题就再次提交，如果没有问题，我们就关闭BUG并输出相应的缺陷报告；
+整体测试完成后我们会输出测试报告，开发人员会把相关的代码进行打包交给运维工程师，运维工程师把相关的代码部署到服务器上，产品开始在生产环境上运行，我们也开始在生产环境上进行全面的测试，如果没有什么问题，这个版本才算结束。
+8、你对加班的看法？
+如果是工作需要我会义不容辞加班。我现在单身，没有任何家庭负担，可以全身心的投入工作。但同时，我也会提高工作效率，减少不必要的加班
+9、你对薪资的要求？
+我对工资没有过高要求。我相信贵公司在处理我的工资问题上会友善合理。我注重的是找工作机会，所以只要条件公平，我则不会计较太多
+10、在未来的几年内，你的职业规划？
+我希望能朝着公司的管理层发展，但在此之前我准备在技术领域进一步提高，
+11、你有什么问题要问公司的吗
+对新员工有没有什么培训的项目
+贵公司的晋升机制是什么样的
+12、工作一段时间却发现你根本不适合这个职位，你怎么办？
+如果我确实热爱这个职业，那我就要不断学习，虚心向领导和同事学习业务知识和处事经验，了解这个职业的精神内涵和职业要求，力争减少差距
+13、如果你在这次面试中你没有被录用，你怎么打算？
+要敢于面对，善于反思，走出阴影,要克服这一次失败带给自己的心理压力,时刻牢记自己弱点,加强学习,提高自身素质.再接再厉
+14、工作中你难以和同事、上司相处，你该怎么办？
+我会从自身找原因，如果我找不到原因，我会找机会跟他们沟通，请他们指出我的不足，如果是我的问题，我会服从领导的指挥，配合同事的工作。
+15、为什么要离职?
+前一份工作与自己的生涯规划不合，觉得工作没有学习发展的空间，我希望能获得一份更好的工作，我还还很年轻，不想安于现状，想来大城市奋斗一下。
+16、你申请的这个职位，你认为你还欠缺什么？
+对于这个职位和我的能力来说，我相信自己是可以胜任的，只是缺乏经验，这个问题我想我可以进入公司以后以最短的时间来解决，我的学习能力很强，我相信可以很快融入公司的企业文化，进入工作状态
+17、你为什么愿意到我们公司来工作？
+我认为贵公司能够给我提供一个与众不同的发展道路，和一个稳定的学习空间
+18、软件测试的策略是什么?
+软件测试策略：在一定的软件测试标准、测试规范的指导下，依据测试项目的特定环境约束而规定的软件测试的原则、方式、方法的集合。
+19、测试人员在软件开发过程中的任务是什么?
+1、尽可能早的找出系统中的Bug;
+2、避免软件开发过程中缺陷的出现;
+3、衡量软件的品质，保证系统的质量;
+4、关注用户的需求，并保证系统符合用户需求。
+总的目标是：确保软件的质量。
+20、什么是回归测试?
+ 回归测试有两类：用例回归和错误回归;用例回归是过一段时间以后再回头对以前使用过的用例在重新进行测试，看看会重新发现问题。错误回归，就是在新版本中，对以前版本中出现并修复的缺陷进行再次验证，并以缺陷为核心，对相关修改的部分进行测试的方法。
+21、你所了解的的软件测试类型都有哪些，简单介绍一下。
+按测试策略分类：
+1、静态与动态测试2、黑盒与白盒测试 3、手工和自动测试 4、冒烟测试 5、回归测试;
+按测试阶段分类：
+单元测试、集成测试、系统测试;
+其他常见测试方法：
+1、功能测试 2、性能测试 3、压力测试 4、负载测试 5、易用性测试 6、安装测试 7、界面测试 8、配置测试 9、文档测试 10、兼容性测试 11、安全性测试 12、恢复测试
+22、一套完整的测试应该由哪些阶段组成?
+可行性分析、需求分析、概要设计、详细设计、编码、单元测试、集成测试、系统测试、验收测试
+23、IEEE 是什么意思？
+国际电气电子工程师协会
+24、GB 是什么意思？
+国家标准
+25、软件测试的目的
+（1）验证软件是否满足各类文档说明书等规定的软件质量要求
+（2）找出软件缺陷
+（3）为软件产品的质量测量和评价提供依据
+（4）帮助开发改进开发流程
+26、软件产品质量特性是什么?
+功能性：适应性、准确性、互操作性、依从性、安全性。
+可靠性：成熟性、容错性、易恢复性。
+可使用性：易理解性、易学习性、易操作性。
+效率：时间特性、资源特性。
+可维护性：易分析性、易变更性、稳定性、易测试性。
+可移植性： 适应性、易安装性、遵循性、易替换性
+27、什么是入口准则、出口准则？
+入口准则是进行一项测试工作前需要准备好的前提条件。
+出口准则是一项测试工作可以结束的前提条件
+28、怎么判断是不是软件缺陷？
+（1）软件未达到产品说明书标明的功能；
+（2）软件出现了产品说明书指明不会出现的错误；
+（3）软件功能超出产品说明书指明范围；
+（4）软件未达到产品说明书虽未指出但应达到的目标；
+（5）软件测试员具体问题具体分析，认为软件难以理解、不易使用、运行速度缓慢，
+或者最终用户认为不好。
+29、简述缺陷的生命周期
+软件测试人员提交缺陷报告；
+测试负责人审核后将缺陷报告分配给相关的开发人员修改；
+缺陷被修改后由测试人员根据缺陷报告中的修改记录进行返测
+返测通过的缺陷报告由负责人关闭；
+返测未通过的缺陷报告直接返回开发人员重新修改，然后再由测试人员返测，直到测试
+和开发达成一致处理意见。
+30、Web 测试的范围
+功能
+性能
+界面
+兼容性
+安全性
+DB（数据库）
+文档
+31、手机 App 测试的范围
+功能模块测试
+交叉事件测试
+性能测试
+安全测试
+兼容性测试
+安装/卸载测试
+接口测试
+弱电测试
+网络测试
+32、什么是黑盒测试？白盒测试？
+黑盒测试也称功能测试，基于规格说明书的测试，关注输入数据到程序中，输出结果是
+否正确，侧重于测试软件能做什么
+白盒测试也称结构测试、逻辑驱动测试，是对程序内部逻辑结构进行的测试
+33、白盒测试与黑盒测试的区别
+白盒测试：测代码、逻辑是否正确；
+黑盒测试：测功能是否满足用户需求。
+34、测试用例的内容是什么？
+用例编号，测试概述或用例标题、测试步骤，预期结果，输入数据，优先级，前置条件等
+35、黑盒测试的优缺点是什么？
+优点：不用针对源代码分析，只需要关注功能是否实现。
+开发人员与测试人员相分离。
+站在用户的角度考虑问题，容易被人所接受
+可以纰漏所有与需求不符合的缺陷和规格
+缺点：
+不能测试程序内部的特定的部位
+没有简洁明了的需求规格说明书，测试用例很难设计
+很多测试路径没有测试到，
+大部分和研究相关的测试都是直接针对白盒测试的。
+36、你们公司BUG严重级别是如何划分的:
+找到bug之后写bug报告
+1.致命性bug:程序崩溃，死机，不能正常启动等等                    立即修改 
+2.严重性bug:程序中主要的功能模块不能使用                  需要在较短的时间内修改
+3.一般类型bug:程序系统次要功能不能正常使用                需要在产品上线前修改   
+4.轻微bug:程序的界面显示，错别字，布局不合理                可以等到下一个版本修改  
+37、你印象中最深刻的BUG
+我在公司进行测试的时候，突然出现了闪退，后来我通过查看日志找到BUG然后截图发给开发来解决，（我问开发是什么导致的闪退，他给我说是定义了一个变量，却没有在程序中使用，导致出现了闪退）
+38、B/S架构的软件与C/S架构的软件区别？
+1、硬件环境不同
+2、对安全要求不同
+3、系统维护不同
+4、处理问题不同
+39、软件测试的基本（工作）流程
+1、需求分析
+2、编写测试用例
+3、评审测试用例
+4、搭建测试环境
+5、冒烟测试
+6、全面执行测试用例
+7、BUG跟踪处理
+8、输出测试报告
+9、测试结束并归档
+40、测试用例的要素
+用例编号、测试模块、用例标题、用例级别、
+测试环境、测试输入、执行操作、预期结果。
+41、常见缺陷要素：
+缺陷状态
+缺陷标题
+缺陷的严重程度
+缺陷的优先级
+缺陷所属模块
+缺陷的重现步骤
+缺陷的环境说明
+缺陷附件（截图）
+42、瀑布模型（开发模型）
+需求分析--设计（概要设计 详细设计）--编码--实现--软件测试--完成--维护。
+43、V模型（测试模型）
+需求分析-概要设计-详细设计-编码-单元测试-集成测试-系统测试-验收测试。
+44、W模型（测试模型）
+开发一个V：需求分析-概要设计-详细设计-编码-集成-实施-交付；
+测试一个V：验收/系统测试的设计-集成测试的设计-单元测试设计-单元测试-集成测试-系统测试-验收测试；
+45、软件缺陷的状态
+提交—打开—拒绝—修复—推迟—关闭
+46、用例八大方法
+1.等价类
+2.边界值
+3.判定表
+4.因果图
+5.正交表
+6. 场景法
+7. 流程法
+8.错误推断法
+47、禅道的使用
+1.导出用例模板
+2.导入测试用例
+3.执行测试用例
+4.提交BUG
+5.关闭BUG
+字符集：UTF-8/GBK
+48、你们用SVN干什么
+我们用禅道主要是管理测试用例
+49、熟练掌握SVN乌龟端使用方法：
+1.提交新文件；
+2.编辑并提交文件；
+3.改文件名字；
+4.文件的移动；
+5.更新至版本（回退版本）；
+6.解决文件冲突；
+7.删除文件。
+50、如何定位BUG
+第一步：定位时间
+sed -n '/开始时间/,/结束时间/p'
+假如就一个文档
+第二步：定位错误
+less 文件名
+/error
+假如多个文档
+先过滤包含错误的文档
+grep ‘error’ 文件名
+定位到目标文档后在执行第二步即可
+51、你们公司用的什么服务器
+Linux+Nginx+MySQL+PHP项目
+52、你们公司用的什么测试环境
+uat环境（测试环境）
+pat环境（线上环境）
+53、冒烟测试用例怎么来的
+是从我所有测试用例中提取出来的主要功能测试用例大概提取全部用例的百分之五
+54、验收测试怎么测的
+内测：在公司全面执行的测试，可以随时修改
+公测：在实际环境中进行的部分测试，让特定用户使用并提建议
+候选版本的测试
+UAT测试：第三方派出专业的业务人员对软件进行测试从而验收
+55、影响计划的潜在因素
+在测试计划执行过程中，可能存在以下因素影响计划的按时完成：
+时间紧迫，任务繁重；
+测试人员对的熟悉进度慢；
+测试人员对被测试产品不够熟悉，对测试工具的使用熟悉程序不够；
+被测试产品存在重大错误，以致于测试无法继续；
+测试资源未及时到位（设备和人员）；
+硬件、软件或网络环境出现故障等；
+测试人员获取的需求与开发人员产生分歧；
+测试人员与开发人员的协调与沟通。
+56、什么时候会用到数据库？
+当面试时被问到什么时候使用到数据库时？
+可以考虑这么回答：
+1 执行测试用例时需要用到数据库验证数据的准确性与完整性；
+2 在对bug进行精准定位时需要用到数据库查看数据的详细信息；
+3 构造某种测试场景时
+可以在数据库里直接修改数据，要比使用界面更有效率；
+4 软件升级过程中
+经常会涉及到对历史数据的处理，这种情况需要执行升级sql，并验证结果。
+57、数据库的分类
+关系型数据库：mysql ，oracle ，sqlserver ，db2
+非关系型数据库： redis
+58、数据库的特点
+持久性 ，结构化 ，效率高
+59、mysql和oracle的区别
+Mysql一般是免费的，oracle是收费的
+Mysql的语法和oracle大致相同
+Oracle要比mysql储存数据量大
+60、优惠券的发放类型
+下单赠送，指定发放，免费领取，线下发放
+61、你们公司明天产品要上线了，但是还没测试全面,这个时候该怎么做?
+虽然在之前的公司之前没有碰到过这样的情况,但是有一套非常完善的方案:
+1.如果这个即将上线的产品,是做完回归测试或者新产品,准备更新上线的,那么如果出现的BUG不严重,用户操作的主要功能不收影响的话,可以正常上线,然后再下一个版本进行迭代的时候进行修复.
+2.再有就是把出现bug的版本拉下来，把候选版本推上去，在bug修复完毕之后，在把修复完的版本推上去。如果出现的bug不影响用户使用的话，可以直接在线上修改。
+62、你们软件上线前的工作
+全面测试完成后，开发把代码打包发送给运维，运维从 svn 下载交付版本,部署服务器上，在生产环境上进行测试，有问题当场修复，在复测，直至没有问题，我们一般再周四晚上10点进行上线，上线一周，然后做一个简单地总结.
+63、主键，外键，唯一的区别
+主键：非空且唯一
+外键：外键的字段和另一个表的主键字段进行连接
+      连接两个表之间的关系
+唯一：唯一，可以为空
+64、你对约束有了解吗
+一般在键上添加索引，主要是提高查询速度
+65、你对视图有了解吗
+起到将sql语句封装起来的作用，然后再去调用，比较安全
+66、对事务有了解吗？
+事务具有原子性:最小单位，不可以再分割了
+        一致性:前后数据要保持一致，要么同时成功，要                             么同时失败
+        持久性:一旦事务提交，就会发生永久改变
+        隔离性:脏读,幻读,不可重复读,不可读
+67、介绍一下你项目中有哪些表？
+用户表  账户表  商品表   购物车表   
+订单表  支付表   优惠券表   抢购表...
+68、数据库在项目中是怎么用的？
+1.一般我会通过增删改查造数据，对数据进行校验
+2.也会通过查询验证前后端bug
+69、用例的测试点
+先从ui界面
+功能点
+接口，性能，兼容性，安全性，弱网，弱电，中断，下载
+卸载，更新
+70、索引都有哪些
+唯一，组合，普通，全文，组件索引
+71、项目中一般在什么时候用的关联
+比如在添加购物车商品时，会提示我们请先登录的token值，这个时候我会用fiddler抓取信息，再用jmeter工具中添加一个线程组，再添加一个请求输入抓取的登录信息，执行得到结果，复制响应结果的token值，在添加一个正则表达式提取器，在输入复制的token值，输入变量名，在添加一个请求，用fiddler抓取信息，输入抓取的信息，用${变量名}引用，在添加一个结果树执行得到结果
+72、一天写多少用例
+一般情况下写100条左右，如果逻辑复杂需求又不清晰的情况下，一天大概写50条左右，因为需求不清晰需要跟开发、产品确认需求，如果还要开会的话，大概写30条左右，
+73、社保
+没有交过 , 我们公司给我折现了 ,因为公司交社保是以最低社保交的，家里也在给我交社保，所以我选择折现了
+74、你在上加公司的工资是多少
+税前9500
+薪资架构（基本工资5000，绩效奖金4500）一年13薪
+（还有餐补，交通补，话费补200，还有奖金：500--1000不等）
+版本管理工具git：
+主支
+1、配置用户信息：
+git config --global user.name "用户名"
+2、配置邮箱信息：
+git config --global user.email "邮箱名"
+3、创建版本库：
+git init
+4、导入源代码到文件夹内：
+git add 文件名
+5、将源代码提交到版本库：
+git commit -m "备注信息"
+6、查看提交的状态：
+git status
+7、查看文件提交记录：
+git log 文件名：查看历史记录；
+git log --pretty=oneline 文件名：查看简易信息；
+8、回退历史：
+git reset --hard HEAD^：回退到上一次提交；
+git reset --hard HEAD~n：回退n次操作
+9、版本穿越：
+git reflog 文件名：查看各个的版本号；
+git reset --hard 版本号：通过版本号进行版本穿越；
+10、还原文件：
+git checkout -- 文件名
+11、删除某个文件：
+1）先删除文件；
+2）再git add 再提交；
+分支：
+1、创建分支：
+git branch 分支名；
+2、查看分支：
+git branch -v
+3、切换分支：
+git checkout 分支名；
+4、合并分支：
+先切换到主干：git checkout master;
+再主干与分支合并：git merge 分支名；
+5、冲突时：
+使用 git diff 定位到冲突的地方，然后删除冲突的内容，再次进行
+git add 和 git
+commit -m "备注信息"；
+自动化怎么做
+Web端自动化：
+
+App自动化：
+
+接口自动化：
+
+电商项目中的表
+用户表 ：
+用户id , 姓名 , 性别 , 密码 , 昵称 , 电话号码 , 出生日期 , 身份证号 , 银行卡号 , 余额 , 积分
+抢购表 :
+主键id , 活动商品 , 抢购总量 , 抢购价格 , 抢购时间 , 购买状态 , 活动状态
+订单表 :
+主键id，用户id , 订单创建时间 , 更新时间 , 商品id ,商品名称， 商品数量 , 商品价格 , 订单状态 等
+添加购物车：
+主键id，创建时间，更新时间，商品名称，店铺名称，商品规格，商品数量，商品价格，商品id，用户id
+接口
+1、你都接触过哪些协议
+http，https，ftp，tcp，ip，
+webService（是一种常用的短信群发提交接口）
+2、HTTP 和 HTTPS 的区别
+1）https 需要ca申请证书，并且大多数证书都是收费的                                              2）http 以明文的形式传输信息，https 则是具有安全性的 ssl 加密传输协议                                                 3）http使用80或者8080端口；https使用的是443端口                                            4）https比http安全（原因：https是在http的基础上加上SSL层，构建出来的可以进行加密传输，身份认证的网络协议）
+3、HTTP协议
+HTTP：超文本传输协议，是一个基于请求与响应模式的、应用层的协议，也是互联网上应用最为广泛的一种网络协议。
+4、URL的组成部分
+固定格式：请求协议://域名:端口/接口地址?接口参数=参数值
+5、客户端TCP三次握手进行连接连接服务端
+第一步：客户端向服务端发送SYN(同步序列编号)
+第二步：服务端收到SYN后，向客户端发送ACK+SYN
+第三步：客户端收到ACK+SYN后，向服务端发送ACK进行连接
+6、常用请求方法
+GET：从服务器获取资源                         POST：向服务器发送一个资源
+PUT：在服务器修改资源
+DELETE：从服务器删除资源
+7、GET和POST的区别
+（1）get是明文请求，在URL后面拼接key和value值，数据会显示出来，不安全；post的请求信息在表单里面，是隐藏起来的，相对于get来说要安全一点，可以通过抓包工具获取信息                  （2）get请求内容有字数限制，post没有字数限制               （3）get是获取数据，post是发送数据
+8、接口的请求格式（数据类型）
+form data  x-www-form-unlencode json  xml
+9、你在工作中如何区分前后端问题
+查看数据库落库信息，
+一般我会使用fiddler抓包工具来进行抓包分析，请求接口、传参、响应三部分来判断Bug
+1）如果请求接口URL不正确，为前端Bug；
+2）如果http请求中的参数不正确，为前端Bug；
+3）如果接口URL和参数都正确，那么查看响应内容是否正确
+如果响应内容不正确，则为后端Bug
+10、如果是后端BUG，如何精确定位后端bug
+查看报错日志，通过日志分析问题点expection/error
+查看数据库确认数据的正确性
+查看缓存是否正确       less -f catalina.日期.not
+11、api文档组成部分
+一般接口文档包含(基本信息,请求参数,返回信息)
+基本信息:包含(接口名称,请求方法,请求路径,接口描述)
+请求参数:包含(请求头，请求体)
+     请求体:包含(参数名称,参数类型,是否必须,示例,备注)
+返回数据:包含(不同情况的状态码,响应数据)
+     响应数据:包含(数据名称,类型,是否必须,默认值,示例,备注)
+12、cookie和session、token的作用
+缓存作用；做一个安全测试的标识，不传cookie，session，token这些，服务器会返回你没有权限访问
+13、token的组成
+是由UID（用户唯一身份识别）、时间戳、签名（sign）加密组成
+作用：用于比较重要的接口检验，用于第三方公司合作权限访问
+14、cookie和session的区别？
+免登陆--cookie；访问--session（存放的数据是一样的）
+（1）cookie：服务器产生的，数据保存在客户端浏览器上（一般设置保存两个星期，保存时间长）
+  session：数据保存在服务器上（默认保存半个小时，保存时间短）
+（2）都可以保存私密信息
+（3）session比cookie更加安全（cookie数据保存在本地，病毒会盗取）
+（4）session会在一定是时间内保存到服务器上；当访问增多时，会占用服务器性能
+15、为什么要做接口测试
+①、为了发现很多在功能上操作发现不了的bug
+②、检查系统的异常处理能力（发送错误的数据会不会导致什么影响）
+③、检查系统的安全性、稳定性（模块与模块之间传输数据是否安全、稳定）
+16、接口测试什么时候介入
+后端开发把接口代码写完之后（专门做接口测试）                     做完功能测试之后，再来测接口
+为了发现功能发现不了的问题
+17、常见的状态码
+状态行由协议版本号、状态码、状态消息三部分组成
+1xx：指示信息--表示请求已接收，继续处理
+2xx：成功--表示请求已被成功接收
+3xx：重定向--把这个请求重定向到别的地方了
+4xx：客户端错误--请求有语法错误或请求无法实现             400代表客户端发送的请求有语法错误
+401代表访问的页面没有授权                                               403表示没有权限访问这个页面                                               404代表没有这个页面
+5xx：服务器端错误--代表服务器有异常                       500代表服务器内部异常                                504代表服务器端超时，没返回结果
+18、接口测试的流程
+一般我们做接口测试，首先进行一个需求评审，评审api文档，去明
+确接口说明，url，请求方式，格式，参数以及响应结果，如果有遗
+漏的地方及时让产品经理补充，会议结束后，我们会根据接口文档设
+计接口测试用例，根据接口测试用例使用测试工具（postman，jmeter）
+来进行测试，如果有BUG就跟踪BUG然后提交BUG，开发解决后我们进
+行复测，复测通过后，关闭BUG，最后生成测试报告
+19、给你一个api文档，怎么设计接口测试用例
+我首先会判断功能测试，比如验证接口功能是否按照接口文档实现（输入+处理+输出）
+在用（仅必填参数（只填写必须填写的参数），全部参数（所有参数全部填写），参数组合（必填的全部填写，非必填天几个））判断单接口测试中的正向功能：(通过性测试)
+在用（参数异常（无参、少参、多参、错误参数），数据异常（数据为空、长度不符、类型不符、错误数据），业务数据异常（结合业务功能考虑输出的各种异常返回情况）判断单接口测试中的反向测试：(异常测试)
+在用判断多接口测试（业务场景功能测试（站在用户角度考虑常用的使用场景），接口之间数据依赖（模块和模块之间要有关联））
+20、接口测试用例包含哪些要素
+ID，模块，用例名称，接口名称，前置条件，请求URL，请求类型，请求头，请求参数类型，请求参数 ，预期结果 ，测试结果
+21、前后端bug都有哪些特点
+前台的bug通常是功能、界面和兼容性等有关；
+后台的bug与逻辑、性能和安全性有关
+22、请求头包含哪些内容
+请求头:Accept可接受数据类型.Accept-Encoding可接受的编码格式.Accept-Language可接受的语言.Cache-Control缓存机制.Connection连接方式.Content-Length字节长度.Content-Type请求格式.cookie.token.session
+Host主机地址.User-Agent使用的是那个浏览器
+23、响应头包含哪些内容:
+Cache-Control缓存机制.Connection连接方式.Content-Type响应格式.Date当前时间.Expires过期时间.location接口位置.Server服务(apache.nginx).Set-Cookie保存cookie.
+24、一个完整的请求需要经历哪些过程（包含哪些时间片段）
+客户端向服务端发送请求,如果网络太差,可能会发生阻塞,存在一个阻塞的时间,正常发送前会将url地址转换成相对应的ip地址,存在一个域名解析的时间,然后会经过一个三次握手的流程,与服务端建立连接,存在连接的时间,紧接着客户端向服务器发送请求,存在发送时间,等待服务器的响应,存在一个响应的时间,服务器响应结束后,将响应数据返回到客户端,存在接收的时间,最后客户端在读取缓存,存在一个缓存读取的时间.
+25、日志里面都包含哪些信息
+系统时间
+服务名
+请求报文（请求头，请求参数）
+响应报文（响应头，响应参数）
+异常和错误
+SQL语句
+26、接口api文档不全面的话，你会怎么办
+首先跟开发和产品反馈，看有没有最新版本的api文档，如果没有的话，看他们能不能补充,如果他们补充不了的话，自己可以利用抓包工具去抓取相关信息，再用在线post工具去生成一个api文档
+27、网络协议有几层,每个层级的作用
+共七层,分别是物理层,其中物理层的作用是透明的传输比特流,为数
+据端提供数据传输的通道,
+数据链路层是进行硬件地址的寻找,起到一个中介的作用,
+网络层就是进行数据传输路线的选择,ip地址以及路由选择,
+传输层就是实现端到端的数据传输,控制数据传输的方式,会话层就
+是建立,管理,
+维护会话,进行安全识别
+表示层就是实现数据的编码和转化,为前端进行加密,为后端进行解
+密,
+应用层就是为应用程序提供接口
+28、http协议位于哪一层
+应用层
+29、tcp和udp协议位于哪一层及其区别
+位于传输层,第一个区别就是安全方面的区别,tcp基于字节流传输,
+主要传输字节,udp传输用户数据,进行加密传输,所以udp更安全,第
+二个区别就是传输速度的区别,tcp需要先建立连接,然后进行传输,
+建立连接也是要耗时的,udp则是无连接传输数据,第三个区别就是传
+输对象的区别,tcp是一对一进行传输,而udp则是一对多或多对多进
+行传输.
+30、你测得这个模块有多少个接口？
+通过模块的大小，模块小的话20个接口左右，大的话50个左右；
+购物车：大概15-20个接口
+31、接口测试做了多久？
+根据接口的数量、项目的大小；
+接口数量少、项目比较小：1-2天；
+接口数量多、项目比较大：一星期左右；
+python
+1、什么是变量
+在程序中可以改变的量就是变量
+变量的语法格式： 变量名 = 值
+2、变量的命名规则
+可以使用字母数字和下划线
+不能纯数字开头
+不能用纯数字
+不能有特殊字符
+不能用python关键字
+3、变量的命名习惯
+多个单词之间可以使用大小驼峰
+多个单词之间可以使用下划线进行连接
+变量名不要所有字母大写
+不要用中文
+见名知意
+
+4、Python的数据类型
+数字型
+整数型(int)
+浮点型(float)
+布尔型(bool)
+True(真)
+Flase(假)
+非数字型
+字符串(str)
+列表(list)
+元组(tuple)
+集合(set)
+字典(dict)
+空型  None  首字母大写 空
+5、格式化字符有哪些？
+%d 要格式化整数
+%s 格式化字符串
+%f 格式化浮点型
+%%  输出一个%
+6、数据类型的转换有哪些？
+转化为str()
+转化为int()
+转化为flaot()
+7、转义字符有哪些？
+\n(换行)   \t(空格)   r(禁止转义)
+8、break和contiune的区别（bu ruei ke）（kang ti niu）
+break和contiune是python的两个关键字
+break是终止循环的执行，contiune是结束本次循环，继续下一次循环
+break和contiune只能用在循环当中
+9、while循环和for循环的不同、
+while循环主要是指定次数的循环
+for循环最主要的作用就是遍历
+while循环和for循环可以相互转换
+10、在python中，所有非数字类型变量都有以下特点：
+都是一个序列
+通过变量名[索引]方式取值
+通过for循环遍历
+可以使用公共方法(计算长度，最大值和最小值)
+11、list（li si te）三个增加的方法
+12、insert(yin se te )   指定位置添加数据
+append(e pan de)   往末尾追加数据
+extend(ei ke si tan de)   追加另外一个列表的值
+13、list中的5个删除方法
+remove(值) (ruei mu) 根据指定的值进行删除
+pop()（pao）   如果有索引删除指定位置的值，没有删除末尾元素
+pop(索引)（pao）
+clear（ke li er） 请空列表
+del（list[索引]）（dai lo）删除指定索引值
+13、list中升序降序逆置的方法
+sort（so te）  升序
+sort(reverse=True)(ruei mo si = chuei o) 降序
+reverse （ruei mo si） 逆置
+14、list修改值得方法
+list[索引] = 值
+15、元组和列表的区别
+列表是可变的，元组是不可变的
+元组不可增删改，存储数据更加安全
+元组和列表之间可以相互转换
+元组和列表之间声明不同(括号)
+16、集合和列表的区别？
+集合中所有成员是无序的，列表中成员是有序的（打印的方法来确认）
+集合中成员的值不能重复，列表中成员值可以重复
+17、python对列表去重的四种方法：
+使用keys()方法进行去重（k z）
+set（sai te）无序不重复的特性去重
+for循环遍历判断在不在空列表进行去重
+set特性去重，然后利用sort（so te）特性在按照索引排序去重
+
+
+
+18、冒泡排序
+冒泡排序就是将一堆杂乱无序的元素，通过方法或者函数，将他们变为有序的，
+就像水中冒泡一样，将其中最大或者最小的元素，一个一个冒泡出
+19、冒泡排序的原理
+冒泡排序就是将第一个元素与后面的元素进行比较大小，选出最大或者最小的一个，然后
+继续跟后面的元素进行比较，直至比较到最后一个，也就是说通过第一轮的比较，列表末尾
+的元素应该就是这个列表中最大或者最小的元素，后边以此类推重复进行以上比较操作
+20、函数的作用
+让代码不要重复冗余
+提高代码的利用率
+提高开发的效率和时间
+21、类和对象的关系(面试里重点)
+类是静态的，是不能直接使用的，要想使用得创建对象
+类是更大的封装(封装函数)
+先有类后有对象，类只有一个，对象可以有很多个
+类是抽象的，对象是根据类创造出的具体的存在
+类里面定义几个方法，创建对象调用方法的时候，就能调用几个，不可能调多
+22、实例和实例化
+什么是实例：通过类创建的对象就是实例
+什么是实例化：创建对象的动作或者过程叫做实例化
+23、self（sai o fu）参数的作用
+self可以在方法的内部定义和使用
+self可以在方法的内部嵌套调用
+self只能在类的内部使用，外部无法使用
+类里边使用属性和方法，要用self调用使用
+self真正的作用就是相当于实例或者对象自己
+24、init（yin ni te）的作用
+定义类中的属性
+为属性进行赋值
+init方法一旦有形参，对象实例化的时候就必须提供实参
+为了避免实例化的时候提供实参，init形参可以设置缺省值
+
+
+
+
+
+25、设计类的三个要素：
+类名，属性，方法
+26、面向对象的三大特性
+封装---根据职责将属性和方法封装到一个抽象的类中
+继承---实现代码的重用，相同的代码不需要重复的编写
+多态---不同的对象调用相同的方法，产生不同的结果，增加代码灵活度
+27、方法的重写
+覆盖父类的方法
+子类中出现和父类相同的方法，那么子类的方法会把父类的方法覆盖掉
+扩展父类的方法
+如果父类的方法不能满足子类需求，子类可以在父类方法基础上增加新的功能
+28、Python中装饰器有哪些？
+@classmothod 修饰类方法的（ke la si mai se de）
+@parameterized  参数化的装饰器（pu ruai mi te ruai z de）
+装饰器是通过传入参数的方式来增强函数的功能，它是一种函数的函数，比较简洁方便，装饰器一般添加到类或者方法上边
+29、unittest是什么？（you ni tai si te）
+是python自带的单元测试框架，具备编写测试用例，组织测试用例，执行测试用例
+输出测试报告等自动化框架的条件
+30、unittest主要包含的内容
+TestCase(测试用例)（tai si te kei si）
+TestSuite(测试套件)（tai si te si wei te）
+TextTestRunner(执行用例)（tai ke si tai si te rua ne）
+TestLoader(自动加载扫描多个测试用例模块放入组件里)
+（tai si te lao de）
+FixTrue(类级别)（fei ke si chu）
+31、为什么使用unittest框架（you ni tai si te） ·
+能够组织多个测试用例执行
+提供丰富的断言
+提供参数化技术，实现数据和业务的分离，方便后期的维护
+生成测试报告
+32、什么是自动化测试？
+程序代替人工进行测试的过程，就是自动化测试
+33、自动化测试能解决什么问题？
+针对之前的老功能进行测试（针对上个版本回归测试）
+兼容性的测试
+实例化不同的浏览器对象针对不同的浏览器进行操作
+性能测试，通过一个工具模拟多个用户实现并发操作
+提高工作的效率，保证产品的质量
+34、自动化测试的优点？
+自动化测试能在较短的时间内执行更多的测试用例
+自动化测试能够减少人为的错误、
+自动化测试可以重复执行
+35、自动化的误区
+可以完全代替手工
+自动化测试一定比手工厉害
+自动化测试可以发现更多的bug
+36、自动化测试分为三类
+第一类：web自动化(UI)   python + selenium +unittest
+第二类：app自动化(UI)   python + appium + unittest
+第三类：接口自动化  python + requests + unittest
+37、什么是web自动化？
+针对的更多web端，页面内容以及页面的元素进行自动化测试的过程
+38、什么项目适合自动化测试
+项目周期长，需求变更不频繁，需要回归测试的项目
+39、selenium的工作原理(重点)？（si li ni mu）
+实例化浏览器驱动对象，通过浏览器驱动对象向浏览器发
+出指令，浏览器接收到指令后根据指令做出操作，结束之后再返回
+给浏览器驱动对象，浏览器驱动对象再返回控制台
+40、八大元素的定位(核心)
+id定位
+name定位
+class_name定位、
+tag_name
+link_text定位（lin ke tai ke si te）
+partail_link_text （pa to lin ke tai ke si te）
+xpath定位（x pa fu）
+css定位
+41、请你描述一下自动化测试的流程？（你们公司如何开展自动化测试的）
+#---1编写自动化测试计划
+#---2设计自动化测试用例
+#---3搭建和编写自动化测试框架以及脚本
+#---4调试和维护
+#---5后期脚本跟踪升级和维护
+42、###你是如何编写自动化测试用例的？
+#----1用例是自动化测试工程师自己设计的，以业务的基本流程为主
+#----（登录---完成----退出）
+#----2从系统测试用例进行筛选或者由业务工程师进行提供
+43、###一般你的自动化执行策略在什么时候？
+#----自动化一般设置定时执行，设置的时间一般晚上12点，执行完毕
+#----自动发送邮件和报告
+44、###自动化测试发现的bug多吗？
+#---不多，因为之前项目组已经通过基本的功能测试，通过之后再
+#---进行自动化测试，而编写后续版本执行自动化测试，主要是保证
+#---已经通过的功能在新版本中没有问题
+45、###你觉得自动化的价值在哪里？（你们回公司为什么要做自动化）
+#----引用自动化测试后，能代替大量繁琐的回归测试，把业务人员解放
+#----出来，继而让业务人员把主要精力集中在复杂的业务功能模块，自动化
+#----测试一般是在稳定下来的功能进行自动化测试的，能保证不会因为产品
+#---更新导致之前稳定下来的功能表出现bug
+46、###自动化测试有没有误报过bug?产生误报咋办
+#---有误报过，有时候可能存在自动化测试报告中显示发现了bug,但是
+#---手工测试的时候，bug不存在
+
+#误报的原因：
+#---元素定位不稳定，需要尽量提高脚本的稳定性
+#---开发更新了页面没有及时通知我们，及时沟通
+47、###自动化过程中有没有遇见问题，如何解决这些问题
+#----自动化过程中偶尔出现误报
+#----开发频繁的变更页面，经常的修改代码
+#----自动化测试代码维护比较麻烦
+48、###你做自动化用什么框架？
+49、###自动化测试过程中，一般完成什么类型的测试？自动化测试的覆盖率多少？
+##主要是回归测试和冒烟测试，回归测试主要是写一些功能稳定的场景，用过
+##自动化手段实现，节约测试时间，因为自动化测试用例也是在不断的更新
+##和迭代
+#覆盖率没有刻意统计，大概（30-40）%
+50、###如果一个元素无法定位，你一般会考虑哪方面的原因？
+#---页面加载过慢，加等待时间
+#---页面frame框架，需要先跳入frame框架，再定位
+#---该元素可能是动态的，定位需要优化，可以使用部分元素定位或
+#---用过父节点或兄弟节点定位
+#---可能识别了该元素，但是不能操作，元素不可用，不可写，需要js前置
+#的操作完成
+51、如果遇到frame框架，如何处理
+先用driver.switch_to.frame() 跳转进frame
+然后在操作该元素，操作完成使用
+driver.switch_to.default_content()
+跳转出来
+52、###你是如何处理弹框的？
+#---使用driver.switch_to.alert方法跳转到alert弹窗口
+#--然后通过accept点击确定按钮，通过dismiss点击取消，通过text()获取弹框文本
+53、###如何处理下拉框
+#--定位到元素
+#--把定位的元素转化为select对象，select = select(element)
+#--通过下标或文本选中下拉框（索引，值，文本）
+54、自动化过程中遇到的异常有哪些？
+#--NoSuchElementExpection:找不到元素异常
+#--TimeOutExpection:超时异常
+#--ElementNoVisibleExpection:元素不可见异常
+#--NoSuchFrameExpection:没有frame异常
+55、自动化如何截图？
+#---get_screeshot_as_file(文件路径)
+56、自动化如何实现文件上传？
+#直接使用send_keys(路径)
+57、你写的脚本能在不同的浏览器上运行吗
+#---可以，可以在IE，谷歌，火狐上运行，需要下载不同的浏览器驱动，实例化不同的浏览器对象
+58、#如何实现selenium的执行速度
+#---优化测试用例,尽量少用设置等待时间sleep,尽量不用隐式等待，使用显示等待
+#——--减少不必要的操作步骤，如果需要经过三四步才能打开网页，可以直接通过网址打开
+#---设置多线程并发
+59、#浏览器的常用方法
+#back()   后退----模拟浏览器后退按钮
+#forward() 前进 ----模拟浏览器前进
+#refresh()  刷新  -----模拟浏览器刷新按钮
+#close()   关闭当前窗口   ----模拟浏览器关闭按钮
+#quit()  关闭浏览器驱动对象  ---关闭所有程序启动的窗口
+60、#CSS的定位策略（重点）
+#----id选择器
+#----class选择器
+#----元素选择器
+#----属性选择器
+#---层级选择器
+61、#xpath的定位策略（方法）：
+#----路径定位
+#---属性定位
+#---属性和逻辑结合定位
+#---属性和层级结合定位
+62、#获取元素信息常用的方法：
+# ---size  获取元素的大小   返回的是一个字典   里边包含高度和宽度
+# ---text  获取元素的文本内容
+# ---get_attrbute("attrbute")  获取元素属性名称的属性值
+63、三个判断元素状态的方法
+# ----is_displayed()      判断元素是否可见
+# ----is_enabled()       判断元素是否可用
+# --- is_selected()      判断复选框或者单选框是否选中
+64、----鼠标的操作
+# ----实现方式（步骤）
+# ----第一步：需要导入ActionChains类
+# ----第二步：通过ActionChains类实例化一个鼠标对象
+# ----第三步：调用鼠标的事件方法
+# ----第四步：调用鼠标的执行方法
+65、#显示等待和隐式等待的区别(重点中的重点)：
+#-1抛出的异常不一样，隐式等待抛出的异常noSuchElementExpection(找不到元素异常)
+#显示等待抛出的异常timeOutExpection(超时异常)
+#-2作用域不一样，隐式等待对所有元素定位方法有效，只需要定义一次，而显示等待只针对单个元素
+#-3显示等待不需要等待真个页面加载完成，显示等待效率更高，工作当中推荐显示等待
+66、说一说app自动化你常用的定位工具是什么
+uiAutomatorViewer定位工具
+67、appium的工作原理
+通过客户端发送自动化指令，给appium服务器，appium服务器在接收到
+客户端的指令后，降指令转换为移动端能够识别的指令，然后发给移动端
+设备，并对移动端设备进行操作，以此完成测试流程
+68、appium的局限性
+不支持安卓4.2以下的版本
+69、appium可能遇见那些错误
+可能找不到adb，android-sdk环境变量路径配置出错
+无法创建会话链接，链接拒绝，appium确保打开
+查找元素使白，更换定位元素
+70、appium 与 selenium 的区别
+appium 是app端自动化，selenium是wed端自动化
+appium继承了webdriver
+71、自动化过程中项目搭建的实战框架
+base（包）封装po基类
+page（包）封装po页面对象
+img  存储截图
+log  存放日志
+config.py 存放项目的配置信息
+report 存放测试报告
+data 存放测试数据
+script 定义测试用例脚本
+untils 存放测试工具类
+72、什么是po模式
+page object 模式是selenium中的一种测试模式
+主要是将每一个页面设计成一个class，其中包含页面中需要测试的元素
+这样在selenium中测试页面可以通过页面类,来获取元素,这样巧妙的避
+免了当页面元素或id或者位置变换时,需要修改测试页class中的属性
+po模式是一种自动化测试的设计模式,将页面和业务操作分开,分离测试
+对象和测试脚本,提高用力的可维护性
+75、##monkey  猴子
+#----monkey集成在adb工具当中的，主要是做稳定性测试的
+#----测试app会不会崩溃(crash)的情况
+#---原理：相当于让一只猴子来随机操作app,所有的操作情况都可能
+#---出现，长时间的操作来测试app会不会出现问题
+76、monkey常用测参数
+#----  -p 参数   对指定的app随机操作
+#---- adb shell monkey -p 包名  随机次数
+#----  -v 参数   表示的是记录信息的级别
+#-----adb shell monkey -p 包名 -v 100 默认级别
+#----- -s 参数   用于指定伪随机事件，主要作用复现上次的问题
+#-----adb shell monkey -p 包名 -v - v -s 100
+77、python如何连接数据库
+导入pymysql
+创建链接返回数据库连接对象
+通过连接对象，创建游标对象
+通过游标对象，调用执行方法
+获取结果集
+关闭游标
+关闭连接
+78、使用的是python语言+requests+unittest框架
+requests为我们提供了请求方式,参数,格式,url地址等,我们还可以使用text或者json来获取对应的响应信息
+unittest为我们提供了assertequal,assertin断言方式,
+我们还可以导入参数化parameterized来进行参数化
+还可以导入htmltestrunner来生成测试报告
+79、如何快速定位到App端出错的地方？（面试题）
+第一种：adb logcat|find "关键字" ：通过关键字来查找信息
+第二种：adb logcat 时间（格式为：2020-09-20 09:30:33）
+埋点定义:记录用户操作行为
+面试:怎么测试埋点:后端-公共埋点
+测试方式1:我会通过抓包工具获取埋点接口数据,查看埋点接口否唯一(如出现2次则埋点有问题),响应结果是否正确/或者调了秒点接口数据没有新增,也有问题
+测试方式2:也可以通过查看数据库内的埋点表的标识(注册,登录等..)来进行查看数据是否重复,,如重复也有问题.
+面试:怎么测试埋点:大数据平台埋点
+测试方式1:大数据平台对应标识
+(登录,购物,时间...)次数是否有新增+1
+测试方式2:也可以通过抓包工具获取埋点接口次数(正常1次)以及响应结果是否正确!
+80、App端和web端测试的区别：(需发给蒙丸)
+主要区别从系统方面 ：
+web 项目是 b/s 架构；
+app 项目是 c/s 架构；
+性能测试方面：
+web 测试需要响应时间、内存、cpu、吞吐量、并发数；
+app测试需要测试响应时间、内存、cpu、消耗电量、流量；
+兼容性方面：
+web主要考虑多种浏览器，浏览器的版本；
+app主要考虑手机品牌、型号、尺寸、分辨率、版本；
+面试:(公司如何做APP兼容性:我们每个品牌都有测试机,把测试机兼容性覆盖完就OK了)如果客户反馈有兼容性问题,再进行优化/或者用模拟器进行模拟
+测试工具方面：
+自动化测试：（1）web 一般用 selenium；
+            （2）手机用 appium；
+性能测试工具：
+             web一般用 loadrunner；（lo de rua ne）
+             手机用 jmeter；
+             相对于 web 端测试 app 测试还需要关注：
+App：1、安装、卸载：低版本不能覆盖高版本；
+   2、弱电、弱网；
+   3、兼容性：安卓的不同机型、ios的不同机型；
+   4、上线前验证：上应用市场之前，ios比安卓多一个  TestFlight软件；
+   5、上应用市场之前先用WiFi测试，没有问题然后放开4G再测试一遍；(内外网交换)
+Web：1、兼容性：浏览器的不同版本；
+   4、当发现问题,web端更新代码刷新缓存即可,如果是APP有问题,需要重新下载APP再进行验证!
+1.干扰测试：来电、短信、通话、关机、重启；
+2.不同网络下的测试，网络切换的测试，无网的测试；
+3.安装、卸载、更新；(自动更新,手动更新,)
+升级(你使用的那个老版本现在公司不维护,直接给你升级到最新版本)
+4.权限测试；(相机,位置,相册,麦克风...)
